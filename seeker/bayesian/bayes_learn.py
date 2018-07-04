@@ -24,5 +24,6 @@ class bayes_learn():
 
 
 if __name__ == '__main__':
-    bayes_learn("virt-who", "./file_debug/f_pos").learn()
 #     bayes_learn("others", "./file_debug/f_neg").learn()
+    bayes_learn("virt-who-pos", "./file_train/pos").learn()
+    bayes_learn("virt-who-neg", "./file_train/neg").learn()
