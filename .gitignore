@@ -1,0 +1,22 @@
+#ignore auth
+seeker/scraper/auth.json
+#ignore train sample
+seeker/bayesian/file_train
+
+#ignore install egg
+*.egg-info
+#ignore instance
+instance
+#ignore pytest cache
+*pytest_cache
+
+#ignore pyc file
+*.pyc
+
+#ignore gedit file
+*~
+
+#ignore eclipse workspace
+.project
+.pydevproject
+.settings
