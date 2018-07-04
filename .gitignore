@@ -3,7 +3,7 @@ seeker/scraper/auth.json
 #ignore train sample
 seeker/bayesian/file_train
 #ignore bayes db
-seeker/bayesian/file_db
+seeker/bayesian/file_db/*
 
 #ignore install egg
 *.egg-info
