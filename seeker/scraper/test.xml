@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cases>
+	<case caseNumber="02069736">
+		<createdBy>Anupam Narayan</createdBy>
+		<createdDate>2018-04-04T04:41:31Z</createdDate>
+		<lastModifiedBy>Swapnil Chaudhari</lastModifiedBy>
+		<lastModifiedDate>2018-04-16T08:36:38Z</lastModifiedDate>
+		<id>500A000000aAk9tIAC</id>
+		<uri>https://api.access.redhat.com/rs/cases/02069736</uri>
+		<summary>Jboss node getting unresponsive after some time</summary>
+		<status>Waiting on Customer</status>
+		<product>Red Hat JBoss Enterprise Application Platform</product>
+		<version>6.4.7</version>
+		<accountNumber>5526253</accountNumber>
+		<contactName>Anupam Narayan</contactName>
+		<owner>Durgesh Anaokar</owner>
+		<severity>2 (High)</severity>
+		<lastPublicUpdateAt>2018-04-09T06:29:16Z</lastPublicUpdateAt>
+		<lastPublicUpdateBy>Swapnil Chaudhari</lastPublicUpdateBy>
+		<qe_valid> </qe_valid>
+		<qe_cases> </qe_cases>
+		<bugzilla> </bugzilla>
+		<edit_date> </edit_date>
+	</case>
+	<case caseNumber="01472916">
+		<createdBy>Email Handler</createdBy>
+		<createdDate>2015-07-07T08:23:02Z</createdDate>
+		<lastModifiedBy>Email Handler</lastModifiedBy>
+		<lastModifiedDate>2015-07-07T08:23:09Z</lastModifiedDate>
+		<id>500A000000RvRb8IAF</id>
+		<uri>https://api.access.redhat.com/rs/cases/01472916</uri>
+		<summary>Virt-Who for Licensing</summary>
+		<status>Waiting on Red Hat</status>
+		<owner>Spam</owner>
+		<severity>3 (Normal)</severity>
+		<lastPublicUpdateAt>2015-07-07T08:23:09Z</lastPublicUpdateAt>
+		<lastPublicUpdateBy>Email Handler</lastPublicUpdateBy>
+		<qe_valid>N/A</qe_valid>
+		<qe_cases> </qe_cases>
+		<bugzilla> </bugzilla>
+		<edit_date>2017-09</edit_date>
+	</case>
+	<case caseNumber="01976915">
+		<createdBy>Martyn Jones</createdBy>
+		<createdDate>2017-11-20T09:11:34Z</createdDate>
+		<lastModifiedBy>Mustufa Mithaiwala</lastModifiedBy>
+		<lastModifiedDate>2017-12-07T19:24:31Z</lastModifiedDate>
+		<id>500A000000Z3QHYIA3</id>
+		<uri>https://api.access.redhat.com/rs/cases/01976915</uri>
+		<summary>Subscriptions</summary>
+		<status>Waiting on Customer</status>
+		<product>Red Hat Satellite or Proxy</product>
+		<version>6.2</version>
+		<accountNumber>734376</accountNumber>
+		<contactName>Martyn Jones</contactName>
+		<owner>Prashant Waghmare</owner>
+		<severity>2 (High)</severity>
+		<lastPublicUpdateAt>2017-12-04T15:31:21Z</lastPublicUpdateAt>
+		<lastPublicUpdateBy>Mustufa Mithaiwala</lastPublicUpdateBy>
+		<qe_valid>Yes</qe_valid>
+		<qe_cases>RHEL7-53889, RHEL7-53879, RHEL7-53894, RHEL7-53899</qe_cases>
+		<bugzilla> </bugzilla>
+		<edit_date>2018-06</edit_date>
+	</case>
+	<totalCount>457</totalCount>
+</cases>

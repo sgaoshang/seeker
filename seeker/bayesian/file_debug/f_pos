@@ -1,0 +1,24 @@
+RHEL7-64830 - 1001-Check virt-who package from os repo
+Step
+***For all hypervisor
+Expected Result
+Refer to bug: BZ 1373391
+1. open the latest rhel build:
+http://download.eng.pek2.redhat.com/rel-eng/ 
+2. check virt-who package exist or not in different
+arch, such as:
+http://download-node-02.eng.bos.redhat.com/rel-
+eng/RHEL-7.3-
+Snapshot-2.0/compose/Server/x86_64/os/Packages/
+ 
+Virt-who should be shipped with
+Client,
+Workstation,
+Server-x86_64
+Server-ppc64
+Server-ppc64le    ----not for
+rhel-6
+Server-s390x
+ComputerNode,
+No virt-who package with:
+Server-aarch64 
