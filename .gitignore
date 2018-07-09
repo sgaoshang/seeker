@@ -1,8 +1,13 @@
+#ignore debug folder
+seeker/debug/
+
 #ignore auth
 seeker/scraper/auth.json
-#ignore train sample
-seeker/bayesian/file_train
+#ignore trained model
+seeker/naivebayes/trained_model
+
 #ignore bayes db
+seeker/bayesian/file_train
 seeker/bayesian/file_db/*
 
 #ignore install egg

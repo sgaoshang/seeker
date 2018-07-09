@@ -63,5 +63,4 @@ class bayes_classify():
 
 
 if __name__ == '__main__':
-#     bayes_classify("./file_debug/f_pos", "virt-who", "others").classify()
-    bayes_classify("./file_train/pos/01227475.txt", "virt-who-pos", "virt-who-neg").classify()
+    bayes_classify("./file_debug/f_pos", "virt-who", "others").classify()

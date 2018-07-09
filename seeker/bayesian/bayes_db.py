@@ -5,7 +5,7 @@ from seeker.logger import logger
 class bayes_db():
 
     def __init__(self):
-        self.conn = sqlite3.connect('../../instance/bayes.db')
+        self.conn = sqlite3.connect('./file_db/bayes.db')
 
     def update_word(self, word_dict, category):
         c = self.conn.cursor()

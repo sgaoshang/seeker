@@ -71,14 +71,21 @@ class CPCaseScraper(object):
                 invalid_cases.append(case.attrs["casenumber"])
         print "Valide case: %s" % len(valid_cases)
         print "Invalide case: %s" % len(invalid_cases)
-        for case in valid_cases:
-            file_content = self.scrape_case_messages(case)
-            file_path = "../bayesian/file_train/pos/%s.txt" % case
-            self.write_file(file_path, file_content)
-        for case in invalid_cases:
-            file_content = self.scrape_case_messages(case)
-            file_path = "../bayesian/file_train/neg/%s.txt" % case
-            self.write_file(file_path, file_content)
+#         for case in valid_cases:
+#             file_content = self.scrape_case_messages(case)
+#             file_path = "../bayesian/file_train/pos/%s.txt" % case
+#             self.write_file(file_path, file_content)
+#         for case in invalid_cases:
+#             file_content = self.scrape_case_messages(case)
+#             file_path = "../bayesian/file_train/neg/%s.txt" % case
+#             self.write_file(file_path, file_content)
+        file_path = "../naivebayes/virtwho/virtwho_test.txt"
+        for case in valid_cases[0:50]:
+            message = "spam" + "\t" + self.scrape_case_messages(case) + "\n"
+            self.write_file(file_path, message)
+        for case in invalid_cases[0:50]:
+            message = "ham" + "\t" + self.scrape_case_messages(case) + "\n"
+            self.write_file(file_path, message)
 
         # print case.attrs["casenumber"]
         # print case.qe_valid
@@ -91,7 +98,7 @@ class CPCaseScraper(object):
         return tuple(auth)
 
     def write_file(self, file_path, file_content):
-        with open(file_path, 'w') as f:
+        with open(file_path, 'a') as f:
             f.write(file_content)
             f.close()
 
@@ -102,4 +109,8 @@ if __name__ == '__main__':
 #     print scraper.scrape_case_messages("01322510")
 #     for item in scraper.scrape_case_messages("dd"):
 #         print item
-#     scraper.scrape_his_data()
+    import time
+    start = time.time()
+    scraper.scrape_his_data()
+    end = time.time()
+    print end - start
