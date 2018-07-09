@@ -5,6 +5,8 @@ seeker/debug/
 seeker/scraper/auth.json
 #ignore trained model
 seeker/naivebayes/trained_model
+#ignore train data
+seeker/naivebayes/virtwho
 
 #ignore bayes db
 seeker/bayesian/file_train

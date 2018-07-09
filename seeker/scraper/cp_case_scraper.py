@@ -79,11 +79,19 @@ class CPCaseScraper(object):
 #             file_content = self.scrape_case_messages(case)
 #             file_path = "../bayesian/file_train/neg/%s.txt" % case
 #             self.write_file(file_path, file_content)
+#         file_path = "../naivebayes/virtwho/virtwho_sample.txt"
+#         for case in valid_cases[0:50]:
+#             message = "spam" + "\t" + self.scrape_case_messages(case) + "\n"
+#             self.write_file(file_path, message)
+#         for case in invalid_cases[0:50]:
+#             message = "ham" + "\t" + self.scrape_case_messages(case) + "\n"
+#             self.write_file(file_path, message)
+
         file_path = "../naivebayes/virtwho/virtwho_test.txt"
-        for case in valid_cases[0:50]:
+        for case in valid_cases[60:70]:
             message = "spam" + "\t" + self.scrape_case_messages(case) + "\n"
             self.write_file(file_path, message)
-        for case in invalid_cases[0:50]:
+        for case in invalid_cases[60:70]:
             message = "ham" + "\t" + self.scrape_case_messages(case) + "\n"
             self.write_file(file_path, message)
 

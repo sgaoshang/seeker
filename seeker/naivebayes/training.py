@@ -5,8 +5,8 @@ import naivebayes as nb
 start = time.time()
 
 # sample_file = './email/debug/sample.txt'
-sample_file = './email/training/sample.txt'
-# sample_file = './virtwho/virtwho_test.txt'
+# sample_file = './email/training/sample.txt'
+sample_file = './virtwho/virtwho_sample.txt'
 text_words, text_label = nb.load_data(sample_file)
 vocab_list = nb.set_vocabulary_list(text_words)
 vectorized_word = nb.vectorize_words(text_words, vocab_list)
