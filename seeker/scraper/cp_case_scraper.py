@@ -79,21 +79,22 @@ class CPCaseScraper(object):
 #             file_content = self.scrape_case_messages(case)
 #             file_path = "../bayesian/file_train/neg/%s.txt" % case
 #             self.write_file(file_path, file_content)
-#         file_path = "../naivebayes/virtwho/virtwho_sample.txt"
-#         for case in valid_cases[0:50]:
-#             message = "spam" + "\t" + self.scrape_case_messages(case) + "\n"
-#             self.write_file(file_path, message)
-#         for case in invalid_cases[0:50]:
-#             message = "ham" + "\t" + self.scrape_case_messages(case) + "\n"
-#             self.write_file(file_path, message)
 
-        file_path = "../naivebayes/virtwho/virtwho_test.txt"
-        for case in valid_cases[60:70]:
+        file_path = "../naivebayes/virtwho/virtwho_sample.txt"
+        for case in valid_cases[0:50]:
             message = "spam" + "\t" + self.scrape_case_messages(case) + "\n"
             self.write_file(file_path, message)
-        for case in invalid_cases[60:70]:
+        for case in invalid_cases[0:50]:
             message = "ham" + "\t" + self.scrape_case_messages(case) + "\n"
             self.write_file(file_path, message)
+
+#         file_path = "../naivebayes/virtwho/virtwho_test.txt"
+#         for case in valid_cases[300:350]:
+#             message = "spam" + "\t" + self.scrape_case_messages(case) + "\n"
+#             self.write_file(file_path, message)
+#         for case in invalid_cases[300:350]:
+#             message = "ham" + "\t" + self.scrape_case_messages(case) + "\n"
+#             self.write_file(file_path, message)
 
         # print case.attrs["casenumber"]
         # print case.qe_valid
@@ -122,3 +123,7 @@ if __name__ == '__main__':
     scraper.scrape_his_data()
     end = time.time()
     print end - start
+# Valide case: 631
+# Invalide case: 589
+# 300X2 case: 1348.37533808
+# 50X2 case: 211.432296038

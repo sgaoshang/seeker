@@ -93,7 +93,7 @@ def get_trained_model():
 
 def classify(vocab_list, p_words_spamicity, p_words_hamicity, p_s, text_words):
     vectorized_word = vectorize_words(text_words, vocab_list)
-    logger.debug("Classify text: %s" % text_words)
+    # logger.debug("Classify text: %s" % text_words)
     evaluated_label = []
     for item in vectorized_word[:]:
         # print item.shape
