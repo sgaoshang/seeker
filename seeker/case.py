@@ -10,7 +10,7 @@ bp = Blueprint('case', __name__)
 
 
 @bp.route('/')
-def index():
+def show_case():
     """show all the cases, descend by probability."""
     db = get_db()
     cases = db.execute(
