@@ -1,10 +1,12 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
 from werkzeug.exceptions import abort
 
 from seeker.auth import login_required
 from seeker.db import get_db
+
+from seeker.serverside_table import serverside_table
 
 bp = Blueprint('case', __name__)
 
@@ -19,6 +21,67 @@ def show_case():
         ' ORDER BY case_date DESC'
     ).fetchall()
     return render_template('case/index.html', cases=cases)
+
+
+@bp.route("/serverside_table", methods=['GET'])
+def serverside_table_content():
+    columns = [
+    {
+        "data_name": "A",
+        "column_name": "Column A",
+        "default": "",
+        "order": 0,
+        "searchable": True
+    },
+    {
+        "data_name": "B",
+        "column_name": "Column B",
+        "default": "",
+        "order": 2,
+        "searchable": True
+    },
+    {
+        "data_name": "C",
+        "column_name": "Column C",
+        "default": 0,
+        "order": 3,
+        "searchable": False
+    },
+    {
+        "data_name": "D",
+        "column_name": "Column D",
+        "default": 0,
+        "order": 4,
+        "searchable": False
+    }
+    ]
+
+    data = [
+        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
+        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
+        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
+        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
+        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
+        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
+        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
+        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
+        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
+        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
+        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
+        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
+        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
+        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
+        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
+        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
+        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
+        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
+        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
+        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
+        {'A': 'Thanks!', 'B': 'Goodbye.', 'C': 12, 'D': 13}
+    ]
+
+    data = serverside_table(request, data, columns).get_table()
+    return jsonify(data)
 
 
 def get_post(id, check_author=True):
