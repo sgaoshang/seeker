@@ -14,9 +14,9 @@ def show_case():
     """show all the cases, descend by probability."""
     db = get_db()
     cases = db.execute(
-        'SELECT case_id, case_link, probability, author_id, username'
+        'SELECT case_id, case_date, predict, validate, case_cover, bug_cover, author_id, username'
         ' FROM cases c JOIN user u ON c.author_id = u.id'
-        ' ORDER BY probability DESC'
+        ' ORDER BY case_date DESC'
     ).fetchall()
     return render_template('case/index.html', cases=cases)
 

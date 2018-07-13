@@ -33,7 +33,7 @@ def create_app(test_config=None):
     @app.route('/start')
     def start():
         from flask import render_template
-        return render_template('starter.html')
+        return render_template('tables.html')
 
     # register the database commands
     from seeker import db
