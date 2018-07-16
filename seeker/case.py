@@ -13,75 +13,13 @@ bp = Blueprint('case', __name__)
 
 @bp.route('/')
 def show_case():
-    """show all the cases, descend by probability."""
-    db = get_db()
-    cases = db.execute(
-        'SELECT case_id, case_date, predict, validate, case_cover, bug_cover, author_id, username'
-        ' FROM cases c JOIN user u ON c.author_id = u.id'
-        ' ORDER BY case_date DESC'
-    ).fetchall()
-    return render_template('case/index.html', cases=cases)
+    return render_template('case/index.html')
 
 
-@bp.route("/serverside_table", methods=['GET'])
-def serverside_table_content():
-    columns = [
-    {
-        "data_name": "A",
-        "column_name": "Column A",
-        "default": "",
-        "order": 0,
-        "searchable": True
-    },
-    {
-        "data_name": "B",
-        "column_name": "Column B",
-        "default": "",
-        "order": 2,
-        "searchable": True
-    },
-    {
-        "data_name": "C",
-        "column_name": "Column C",
-        "default": 0,
-        "order": 3,
-        "searchable": False
-    },
-    {
-        "data_name": "D",
-        "column_name": "Column D",
-        "default": 0,
-        "order": 4,
-        "searchable": False
-    }
-    ]
-
-    data = [
-        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
-        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
-        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
-        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
-        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
-        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
-        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
-        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
-        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
-        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
-        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
-        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
-        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
-        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
-        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
-        {'A': 'Hello!', 'B': 'How is it going?', 'C': 3, 'D': 4},
-        {'A': 'These are sample texts', 'B': 0, 'C': 5, 'D': 6},
-        {'A': 'Mmmm', 'B': 'I do not know what to say', 'C': 7, 'D': 16},
-        {'A': 'Is it enough?', 'B': 'Okay', 'C': 8, 'D': 9},
-        {'A': 'Just one more', 'B': '...', 'C': 10, 'D': 11},
-        {'A': 'Thanks!', 'B': 'Goodbye.', 'C': 12, 'D': 13}
-    ]
-
-    data = serverside_table(request, data, columns).get_table()
-    return jsonify(data)
+@bp.route("/show_case_table", methods=['GET'])
+def show_case_table():
+    show_data = serverside_table(request).get_table()
+    return jsonify(show_data)
 
 
 def get_post(id, check_author=True):
