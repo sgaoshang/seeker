@@ -8,6 +8,8 @@ from seeker.db import get_db
 
 from seeker.serverside_table import serverside_table
 
+from seeker.logger import logger
+
 bp = Blueprint('case', __name__)
 
 
@@ -19,6 +21,7 @@ def show_case():
 @bp.route("/show_case_table", methods=['GET'])
 def show_case_table():
     show_data = serverside_table(request).get_table()
+    logger.debug("show_data: %s" % show_data)
     return jsonify(show_data)
 
 
