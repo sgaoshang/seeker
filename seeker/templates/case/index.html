@@ -7,7 +7,6 @@
 {% block content %}
   <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
@@ -51,6 +50,79 @@
   -->
   </table>
 
+  <!-- Case Details Modal -->
+ 
+  <div class="modal fade bd-example-modal-lg" id="case_details_modal" tabindex="-1" role="dialog" aria-labelledby="case_details_modal_title" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="case_details_modal_title">...</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          loading ...
+        </div>
+        <div class="modal-footer">
+          <form method="post">
+            <div class="form-check form-check-inline">
+              <label>Validation:</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+              <label class="form-check-label" for="inlineRadio1">yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+              <label class="form-check-label" for="inlineRadio2">no</label>
+            </div>
+            <div>
+              <a href="" class="badge badge-secondary" data-dismiss="modal">Close</a>
+              <a href="" class="badge badge-secondary" type="submit">Save</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('#case_details_modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var case_id = button.data('case-id') // Extract info from data-* attributes
+      var modal = $(this)
+      var data={
+        'case_id':case_id,
+      }
+      //alert(JSON.stringify(data));
+      $.ajax({
+        type:'POST',
+        url:'{{ url_for("case.show_case_details") }}',
+        data:JSON.stringify(data),
+        contentType:'application/json',
+        dataType:'json',
+        success:function(ret_data){
+          //var case_details = JSON.stringify(ret_data);
+          var case_details = ret_data.case_details
+          //alert(case_details);
+          modal.find('.modal-title').text('Case Details: '+case_id);
+          modal.find('.modal-body').html(case_details);
+        }
+      });
+    })
+  </script>
+
+<!--
+  <script>
+    $(function () {
+      $('#case_details_modal').on('show.bs.modal', function (e) {
+        message = "GGGGG";
+        //alert(message);
+      });
+    })
+  </script>
+-->
 <!-- https://polarion.engineering.redhat.com/polarion/#/project/RedHatEnterpriseLinux7/workitem?id= -->
 <!-- https://bugzilla.redhat.com/show_bug.cgi?id= -->
 <!-- https://access.redhat.com/support/cases/#/case/ -->

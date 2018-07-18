@@ -1,5 +1,15 @@
 import requests, json
 from bs4 import BeautifulSoup
+from seeker.logger import logger
+
+# python2
+# import HTMLParser
+# python3
+# from html.parser import HTMLParser
+# python3.4
+# import html
+# sax module
+from xml.sax.saxutils import unescape
 
 
 class CPCaseScraper(object):
@@ -45,8 +55,8 @@ class CPCaseScraper(object):
         messages = []
         # https://access.redhat.com/rs/cases/00037785?redhat_client=Red Hat Customer Portal 1.3.34&account_number=477931
         r = requests.get(
-            # url='https://access.redhat.com/rs/cases/00037785',
-            url='https://access.redhat.com/rs/cases/%s' % case_number,
+            url='https://access.redhat.com/rs/cases/00037785',
+#             url='https://access.redhat.com/rs/cases/%s' % case_number,
             params={"account_number":"477931", "redhat_client":"Red Hat Customer Portal 1.3.34"},
             auth=self.get_auth(),
         )
@@ -56,7 +66,8 @@ class CPCaseScraper(object):
             messages.append(message)
         messages.append(description)
         messages.reverse()
-        return str(messages)
+        logger.debug(len(messages))
+        return unescape(str(messages).replace("\\n", "<br>"))
 
     def scrape_his_data(self):
         valid_cases = []
@@ -102,7 +113,7 @@ class CPCaseScraper(object):
         # print case.bugzilla
 
     def get_auth(self):
-        with open("auth.json", 'r') as f:
+        with open("seeker/scraper/auth.json", 'r') as f:
             auth = json.load(f)
         return tuple(auth)
 

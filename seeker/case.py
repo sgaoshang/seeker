@@ -2,13 +2,11 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
 )
 from werkzeug.exceptions import abort
-
 from seeker.auth import login_required
 from seeker.db import get_db
-
 from seeker.serverside_table import serverside_table
-
 from seeker.logger import logger
+from seeker.scraper.cp_case_scraper import CPCaseScraper
 
 bp = Blueprint('case', __name__)
 
@@ -18,11 +16,26 @@ def show_case():
     return render_template('case/index.html')
 
 
-@bp.route("/show_case_table", methods=['GET'])
+@bp.route("/show_case_table", methods=('GET',))
 def show_case_table():
     show_data = serverside_table(request).get_table()
-    logger.debug("show_data: %s" % show_data)
+    # logger.debug("show_data: %s" % show_data)
     return jsonify(show_data)
+
+
+@bp.route("/show_case_details", methods=('GET', 'POST'))
+def show_case_details():
+    if request.method == 'POST':
+        data = request.get_json()
+        case_id = data.get('case_id')
+        case_details = get_case_details(case_id)
+    return jsonify({"case_details":case_details})
+#     return render_template('case/case_details.html')
+
+
+def get_case_details(case_id):
+    scraper = CPCaseScraper()
+    return scraper.scrape_case_messages(case_id)
 
 
 def get_post(id, check_author=True):
