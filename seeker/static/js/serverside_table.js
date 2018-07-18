@@ -4,7 +4,7 @@ $(document).ready(function() {
 		"bFilter" : false,
 		"processing" : true,
 		"bServerSide" : true,
-		"aLengthMenu" : [ 5, 10, 20 ],
+		"aLengthMenu" : [ 10, 20 ,50 ],
 		"sAjaxSource" : "/show_case_table",
 		"columns" : [
 			{

@@ -16,20 +16,29 @@
     <!-- <div class="container-fluid"> -->
       <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <!--
-        <a href="{{ url_for("index") }}">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ url_for('index') }}">
+            <img src='{{ url_for("static", filename="img/eye-8x.png") }}' width="30" height="30" class="d-inline-block align-top" alt="">
+            Seeker
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#seeker-navbar" aria-controls="seeker-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="seeker-navbar">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{{ url_for('index') }}">Home<!--<span class="sr-only">(current)</span>--></a>
+              <a class="nav-link" href="{{ url_for('index') }}">Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <!--
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Dropdown
@@ -41,40 +50,40 @@
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
             </li>
+            -->
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-            <li class="nav-item">
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+              <form class="form-inline">
+                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                <!-- <a href="" class="badge badge-secondary" type="submit">Search</a> -->
+                <button class="btn btn-outline-dark" type="submit">Search</button>
               </form>
             </li>
           </ul>
-          <!-- <ul class="navbar-nav mr-auto"> --><!-- my-2, my-lg-0, mr-sm-0, my-sm-0 -->
+
           <ul class="navbar-nav mr-sm-0">
             {% if g.user %}
               <li class="nav-item">
-                <span>{{ g.user['username'] }}</span>
+                <p class="nav-link" class="text-center">{{ g.user['username'] }}</p>
               </li>
               <li class="nav-item">
-                <a href="{{ url_for('auth.logout') }}">
-                  Log Out
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">
+                  logout
                 </a>
               </li>
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.register') }}">
-                  Register
+                  register
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.login') }}">
-                  Log In
+                  login
                 </a>
               </li>
             {% endif %}
           </ul>
+
         </div>
       </nav>
 
