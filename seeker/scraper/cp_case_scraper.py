@@ -66,7 +66,7 @@ class CPCaseScraper(object):
             messages.append(message)
         messages.append(description)
         messages.reverse()
-        logger.debug(len(messages))
+        # logger.debug(len(messages))
         return unescape(str(messages).replace("\\n", "<br>"))
 
     def scrape_his_data(self):
