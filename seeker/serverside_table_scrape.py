@@ -1,13 +1,17 @@
 from seeker.logger import logger
 from seeker.db import get_db
+from seeker.scraper.cp_case_scraper import CPCaseScraper
 
 
-class serverside_table(object):
+class serverside_table_scrape(object):
 
     def __init__(self, request):
         self.table_data = None
+        scraper = CPCaseScraper()
+        # singleton?
+        self.cases_list = scraper.scrape_cases_via_date()
         self.db = get_db()
-        self.cardinality = self.db.execute("select count(*) from cases").fetchone()[0]
+        self.cardinality = len(self.cases_list)
         # logger.debug("cardinality: %s" % self.cardinality)
         self.request_values = request.values
         self.table_data = self._pagination()
@@ -23,15 +27,8 @@ class serverside_table(object):
             if end >= self.cardinality:
                 # display last page
                 length = self.cardinality - start
-        # logger.debug("limit: %s, %s" % (start, end))
-        db = get_db()
-        search_case_sql = 'SELECT case_id, predict, validate, case_date, case_cover, bug_cover, author_id, username FROM cases c JOIN user u ON c.author_id = u.id ORDER BY case_date DESC limit %s offset %s' % (length, start)
-        # logger.debug("search_case_sql: %s" % search_case_sql)
-        cases_list = []
-        for row in db.execute(search_case_sql).fetchall():
-            cases_list.append(dict(row))
-        # logger.debug("cases_list: %s" % cases_list)
-        return cases_list
+        logger.debug("limit: %s, %s" % (start, start + length))
+        return self.cases_list[start:start + length]
 
     def get_table(self):
         '''

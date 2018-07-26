@@ -1,12 +1,13 @@
 $(document).ready(function() {
-	//alert("new");
-	$('#case_new_table').DataTable({
+	//need to parameterize, one js
+	//alert("his");
+	$('#case_his_table').DataTable({
 		"bSort" : false,
 		"bFilter" : false,
 		"processing" : true,
 		"bServerSide" : true,
 		"aLengthMenu" : [ 10, 20 ,50 ],
-		"sAjaxSource" : '/show_new_table',
+		"sAjaxSource" : "/show_his_table",
 		"columns" : [
 			{
 				"data" : "case_id",

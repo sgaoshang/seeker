@@ -5,6 +5,7 @@ from werkzeug.exceptions import abort
 from seeker.auth import login_required
 from seeker.db import get_db
 from seeker.serverside_table import serverside_table
+from seeker.serverside_table_scrape import serverside_table_scrape
 from seeker.logger import logger
 from seeker.scraper.cp_case_scraper import CPCaseScraper
 
@@ -13,13 +14,30 @@ bp = Blueprint('case', __name__)
 
 @bp.route('/')
 def show_case():
-    return render_template('case/index.html')
+    return render_template('case/case_base.html')
 
 
-@bp.route("/show_case_table", methods=('GET',))
-def show_case_table():
+@bp.route('/show_his')
+def show_his():
+    return render_template('case/case_his.html')
+
+ 
+@bp.route('/show_new')
+def show_new():
+    return render_template('case/case_new.html')
+
+
+@bp.route("/show_his_table", methods=('GET',))
+def show_his_table():
     show_data = serverside_table(request).get_table()
-    # logger.debug("show_data: %s" % show_data)
+    logger.debug("show_his_table: %s" % show_data)
+    return jsonify(show_data)
+
+
+@bp.route("/show_new_table", methods=('GET',))
+def show_new_table():
+    show_data = serverside_table_scrape(request).get_table()
+    logger.debug("show_new_table: %s" % show_data)
     return jsonify(show_data)
 
 

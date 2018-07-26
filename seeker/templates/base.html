@@ -28,6 +28,7 @@
         </div>
 
         <div class="collapse navbar-collapse" id="seeker-navbar">
+
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <a class="nav-link" href="{{ url_for('index') }}">Home<span class="sr-only">(current)</span></a>
@@ -38,29 +39,26 @@
             <li class="nav-item">
               <a class="nav-link disabled" href="#">Disabled</a>
             </li>
-            <!--
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-            -->
+
             <li class="nav-item">
-              <form class="form-inline">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                <!-- <a href="" class="badge badge-secondary" type="submit">Search</a> -->
-                <button class="btn btn-outline-dark" type="submit">Search</button>
-              </form>
+              <div class="input-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Component</button>
+                <div class="dropdown-menu" id="compose_select">
+                  <a class="dropdown-item" href="#">rhsm</a>
+                  <a class="dropdown-item" href="#">virt-who</a>
+                  <a class="dropdown-item" href="#">...</a>
+                  <div role="separator" class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Add new component</a>
+                </div>
+                <input class="form-control" placeholder="virt-who" id="compose_value">
+                <!-- <button class="btn" href="{{ url_for('index') }}">Search</button> -->
+                <!-- <a class="btn" href="{{ url_for('index') }}" role="button">Search</a> -->
+                <a class="btn" href="{{ url_for('index') }}" role="button">Search</a>
+              </div>
             </li>
           </ul>
 
-          <ul class="navbar-nav mr-sm-0">
+          <ul class="navbar-nav justify-content-end">
             {% if g.user %}
               <li class="nav-item">
                 <p class="nav-link" class="text-center">{{ g.user['username'] }}</p>
@@ -73,12 +71,12 @@
             {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.register') }}">
-                  register
+                  Register
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.login') }}">
-                  login
+                  Login
                 </a>
               </li>
             {% endif %}
@@ -96,8 +94,13 @@
         {% endfor %}
         {% block content %}{% endblock %}
       </section>
-    </div>
 
+    </div>
+    <script>
+      $("#compose_select").on("click", "a", function(){
+        $("#compose_value").val($(this).text());
+      });
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <!--
