@@ -34,11 +34,13 @@ def show_his_table():
     return jsonify(show_data)
 
 
-@bp.route("/show_new_table", methods=('GET',))
+@bp.route("/show_new_table", methods=('GET', 'POST'))
 def show_new_table():
-    show_data = serverside_table_scrape(request).get_table()
-    logger.debug("show_new_table: %s" % show_data)
-    return jsonify(show_data)
+    case_list = {}
+    scraper = CPCaseScraper()
+    case_list['data'] = scraper.scrape_cases_via_date()
+    logger.debug("show_new_table: %s" % case_list)
+    return jsonify(case_list)
 
 
 @bp.route("/show_case_details", methods=('GET', 'POST'))

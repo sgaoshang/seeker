@@ -103,17 +103,17 @@ class CPCaseScraper(object):
             for case in s.findAll("case"):
                 case_dict = {}
                 created_date = case.createddate.text[0:9]
-                logger.debug(created_date)
+                # logger.debug(created_date)
                 if datetime.datetime.strptime(created_date, '%Y-%m-%d') > datetime.datetime.strptime(date_limit, '%Y-%m-%d'):
-                    logger.debug("no exceeded date limit")
+                    # logger.debug("no exceeded date limit")
                     case_dict["case_date"] = created_date
                 else:
                     logger.debug("exceeded date limit")
                     # need to check whether case missed
                     return cases_list
                 case_dict["case_id"] = case.attrs["casenumber"]
-                #case_dict["lastmodifieddate"] = case.createddate.text
-                #case_dict["summary"] = case.summary.text
+                # case_dict["lastmodifieddate"] = case.createddate.text
+                # case_dict["summary"] = case.summary.text
                 case_dict["status"] = case.status.text
                 case_dict["predict"] = 1
                 cases_list.append(case_dict)
