@@ -5,7 +5,6 @@ from werkzeug.exceptions import abort
 from seeker.auth import login_required
 from seeker.db import get_db
 from seeker.serverside_table import serverside_table
-from seeker.serverside_table_scrape import serverside_table_scrape
 from seeker.logger import logger
 from seeker.scraper.cp_case_scraper import CPCaseScraper
 
@@ -17,17 +16,7 @@ def show_case():
     return render_template('case/case_base.html')
 
 
-@bp.route('/show_his')
-def show_his():
-    return render_template('case/case_his.html')
-
- 
-@bp.route('/show_new')
-def show_new():
-    return render_template('case/case_new.html')
-
-
-@bp.route("/show_his_table", methods=('GET',))
+@bp.route("/show_his_table", methods=('GET', 'POST'))
 def show_his_table():
     show_data = serverside_table(request).get_table()
     logger.debug("show_his_table: %s" % show_data)
@@ -50,7 +39,6 @@ def show_case_details():
         case_id = data.get('case_id')
         case_details = get_case_details(case_id)
     return jsonify({"case_details":case_details})
-#     return render_template('case/case_details.html')
 
 
 def get_case_details(case_id):
