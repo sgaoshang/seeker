@@ -52,7 +52,7 @@ $(document).ready(function() {
 			{
 				"data" : null,
 				"render" : function(data, type, row, meta) {
-					return data = '<a href="#" class="badge badge-primary" data-toggle="modal" data-target="#update_case_modal" data-case-id="'+row.case_id+'">edit</a>';
+					return data = '<a href="#" class="badge badge-primary" data-toggle="modal" data-target="#update_case_modal" data-case-id="'+row.case_id+'" data-case-cover="'+row.case_cover+'" data-bug-cover="'+row.bug_cover+'">edit</a>';
 				}
 			}
 		],

@@ -101,6 +101,7 @@ def save_case():
             (case_id, predict, validate, case_date, case_cover, bug_cover, "1")
         )
         db.commit()
+        logger.debug("save_case")
         return ('', 204)
     flash(error)
     return render_template('case/case_base.html')
@@ -119,17 +120,11 @@ def update_case():
 #         error = 'validate is required.'
     if error is None:
         db = get_db()
-        if db.execute(
-            'SELECT * FROM cases WHERE case_id=%s' % (case_id)
-        ).fetchone() is not None:
-            db.execute(
-                'UPDATE cases SET validate="%s",case_cover="%s",bug_cover="%s" WHERE case_id=%s' % (validate, case_cover, bug_cover, case_id)
-            )
-        else:
-            db.execute(
-                'UPDATE cases SET validate="%s",case_cover="%s",bug_cover="%s" WHERE case_id=%s' % (validate, case_cover, bug_cover, case_id)
-            )
+        db.execute(
+            'UPDATE cases SET validate="%s",case_cover="%s",bug_cover="%s" WHERE case_id="%s"' % (validate, case_cover, bug_cover, case_id)
+        )
         db.commit()
+        logger.debug("update_case")
         return ('', 204)
     flash(error)
     return render_template('case/case_base.html')
