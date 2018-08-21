@@ -2,6 +2,8 @@ import requests, json, datetime
 from bs4 import BeautifulSoup
 from seeker.logger import logger
 
+from seeker.naivebayes import classifier
+
 # python2
 # import HTMLParser
 # python3
@@ -80,7 +82,7 @@ class CPCaseScraper(object):
         cases_list = []
         search_request = {
             "account_number":   "477931",
-            "limit":            "50",
+            "limit":            "5",
             "newSearch":        "true",
             "partnerSearch":    "false",
             "query":            "virt\-who AND case_status:*",
@@ -102,7 +104,7 @@ class CPCaseScraper(object):
             # print s.find("totalcount").string
             for case in s.findAll("case"):
                 case_dict = {}
-                created_date = case.createddate.text[0:9]
+                created_date = case.createddate.text[0:10]
                 # logger.debug(created_date)
                 if datetime.datetime.strptime(created_date, '%Y-%m-%d') > datetime.datetime.strptime(date_limit, '%Y-%m-%d'):
                     # logger.debug("no exceeded date limit")
@@ -111,11 +113,14 @@ class CPCaseScraper(object):
                     logger.debug("exceeded date limit")
                     # need to check whether case missed
                     return cases_list
-                case_dict["case_id"] = case.attrs["casenumber"]
+                case_id = case.attrs["casenumber"]
+                case_dict["case_id"] = case_id
                 # case_dict["lastmodifieddate"] = case.createddate.text
                 # case_dict["summary"] = case.summary.text
                 case_dict["status"] = case.status.text
-                case_dict["predict"] = 1
+                # case_dict["predict"] = 1
+                logger.debug("classify case: %s" % case_id)
+                case_dict["predict"] = classifier.classify(self.scrape_case_messages(case_id))
                 cases_list.append(case_dict)
             # Next page
             pageno += 1
@@ -126,9 +131,10 @@ class CPCaseScraper(object):
     def scrape_case_messages(self, case_number):
         messages = []
         # https://access.redhat.com/rs/cases/00037785?redhat_client=Red Hat Customer Portal 1.3.34&account_number=477931
+        case_url = 'https://access.redhat.com/rs/cases/%s' % case_number
         r = requests.get(
-            url='https://access.redhat.com/rs/cases/00037785',
-#             url='https://access.redhat.com/rs/cases/%s' % case_number,
+            url=case_url,
+            # url='https://access.redhat.com/rs/cases/%s' % case_number,
             params={"account_number":"477931", "redhat_client":"Red Hat Customer Portal 1.3.34"},
             auth=self.get_auth(),
         )

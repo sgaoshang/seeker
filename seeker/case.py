@@ -8,6 +8,8 @@ from seeker.serverside_table import serverside_table
 from seeker.logger import logger
 from seeker.scraper.cp_case_scraper import CPCaseScraper
 
+import datetime
+
 bp = Blueprint('case', __name__)
 
 
@@ -25,11 +27,43 @@ def show_his_table():
 
 @bp.route("/show_new_table", methods=('GET', 'POST'))
 def show_new_table():
-    case_list = {}
+    case_dict = {}
+    search_date = get_search_date()
     scraper = CPCaseScraper()
-    case_list['data'] = scraper.scrape_cases_via_date()
-    logger.debug("show_new_table: %s" % case_list)
-    return jsonify(case_list)
+    case_list = scraper.scrape_cases_via_date(search_date)
+
+    logger.debug("before case_list: %s" % case_list)
+    db = get_db()
+    min_date = ""
+    for case in case_list:
+        if db.execute('SELECT * FROM cases WHERE case_id=%s' % (case["case_id"])).fetchone() is not None:
+            case_list.remove(case)
+        else:
+            if min_date == "" or datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(case["case_date"], '%Y-%m-%d'):
+                min_date = case["case_date"]
+    if datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(search_date, '%Y-%m-%d'):
+        logger.debug("update search date to: %s" % min_date)
+        update_search_date("2018-8-5")
+
+    logger.debug("after case_list: %s" % case_list)
+    case_dict['data'] = case_list
+    logger.debug("show_new_table: %s" % case_dict)
+    return jsonify(case_dict)
+
+
+def get_search_date():
+    sql_search_date = 'SELECT search_date FROM cases_search_date WHERE component = "virt-who"'
+    search_date = get_db().execute(sql_search_date).fetchone()[0]
+    logger.debug("search_date: %s" % search_date)
+    return search_date
+
+
+def update_search_date(search_date):
+    db = get_db()
+    db.execute(
+        'UPDATE cases_search_date SET search_date="%s" WHERE component = "virt-who"' % search_date
+    )
+    db.commit()
 
 
 @bp.route("/show_case_details", methods=('GET', 'POST'))
@@ -44,6 +78,66 @@ def show_case_details():
 def get_case_details(case_id):
     scraper = CPCaseScraper()
     return scraper.scrape_case_messages(case_id)
+
+
+@bp.route("/save_case", methods=('GET', 'POST'))
+def save_case():
+    case_id = request.form['case-id']
+    predict = request.form['predict']
+    validate = request.form['validate']
+    case_date = request.form['case-date']
+    case_cover = request.form['case-cover']
+    bug_cover = request.form['bug-cover']
+    error = None
+    if not case_id:
+        error = 'case-id is required.'
+    if validate == "":
+        error = 'validate is required.'
+    if error is None:
+        db = get_db()
+        db.execute(
+            'INSERT INTO cases (case_id,predict,validate,case_date,case_cover,bug_cover,author_id)'
+            'VALUES (?, ?, ?,?,?,?,?)',
+            (case_id, predict, validate, case_date, case_cover, bug_cover, "1")
+        )
+        db.commit()
+        return ('', 204)
+    flash(error)
+    return render_template('case/case_base.html')
+
+
+@bp.route("/update_case", methods=('GET', 'POST'))
+def update_case():
+    case_id = request.form['case-id']
+    validate = request.form['validate']
+    case_cover = request.form['case-cover']
+    bug_cover = request.form['bug-cover']
+    error = None
+    if not case_id:
+        error = 'case-id is required.'
+#     if validate:
+#         error = 'validate is required.'
+    if error is None:
+        db = get_db()
+        if db.execute(
+            'SELECT * FROM cases WHERE case_id=%s' % (case_id)
+        ).fetchone() is not None:
+            db.execute(
+                'UPDATE cases SET validate="%s",case_cover="%s",bug_cover="%s" WHERE case_id=%s' % (validate, case_cover, bug_cover, case_id)
+            )
+        else:
+            db.execute(
+                'UPDATE cases SET validate="%s",case_cover="%s",bug_cover="%s" WHERE case_id=%s' % (validate, case_cover, bug_cover, case_id)
+            )
+        db.commit()
+        return ('', 204)
+    flash(error)
+    return render_template('case/case_base.html')
+#     if request.method == 'POST':
+#         data = request.get_json()
+#         case_id = data.get('case_id')
+#         case_details = get_case_details(case_id)
+#     return jsonify({"case_details":case_details})
 
 
 def get_post(id, check_author=True):

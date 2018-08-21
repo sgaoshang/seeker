@@ -83,10 +83,10 @@ def train(train_words, train_label):
 
 
 def get_trained_model():
-    vocab_list = get_vocabulary_list('trained_model/vocab_list.txt')
-    p_words_spamicity = np.loadtxt('trained_model/p_words_spamicity.txt', delimiter='\t')
-    p_words_hamicity = np.loadtxt('trained_model/p_words_hamicity.txt', delimiter='\t')
-    with open('trained_model/p_s.txt', 'r') as f:
+    vocab_list = get_vocabulary_list('seeker/naivebayes/trained_model/vocab_list.txt')
+    p_words_spamicity = np.loadtxt('seeker/naivebayes/trained_model/p_words_spamicity.txt', delimiter='\t')
+    p_words_hamicity = np.loadtxt('seeker/naivebayes/trained_model/p_words_hamicity.txt', delimiter='\t')
+    with open('seeker/naivebayes/trained_model/p_s.txt', 'r') as f:
         p_s = float(f.readline().strip())
     return vocab_list, p_words_spamicity, p_words_hamicity, p_s
 
@@ -105,3 +105,21 @@ def classify(vocab_list, p_words_spamicity, p_words_hamicity, p_s, text_words):
         else:
             evaluated_label.append(0)
     logger.debug("Classify result: %s" % evaluated_label)
+    return evaluated_label
+
+
+def single_classify(vocab_list, p_words_spamicity, p_words_hamicity, p_s, text_word):
+    vectorized_word = [0] * len(vocab_list)
+    for word in text_word:
+        if word in vocab_list:
+            vectorized_word[vocab_list.index(word)] += 1
+    np.array(vectorized_word)
+
+    p1 = sum(vectorized_word * p_words_spamicity) + np.log(p_s)
+    p0 = sum(vectorized_word * p_words_hamicity) + np.log(1 - p_s)
+    if p1 > p0:
+        evaluated_label = 1
+    else:
+        evaluated_label = 0
+    logger.debug("Classify result: %s" % evaluated_label)
+    return evaluated_label

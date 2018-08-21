@@ -48,7 +48,13 @@ $(document).ready(function() {
 				"render" : function(data, type, row, meta) {
 					return data = '<a target ="_blank" href="https://bugzilla.redhat.com/show_bug.cgi?id='+data+'">'+data+'</a>';
 				}
-			}
+			},
+			{
+				"data" : null,
+				"render" : function(data, type, row, meta) {
+					return '<a href="#" class="badge badge-primary" data-toggle="modal" data-target="#save_case_modal" data-case-id="'+row.case_id+'" data-predict="'+row.predict+'" data-case-date="'+row.case_date+'" data-status="'+row.status+'">save</a>';
+				}
+			},
 		],
 	});
 });

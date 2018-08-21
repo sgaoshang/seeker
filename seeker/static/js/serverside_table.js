@@ -48,6 +48,12 @@ $(document).ready(function() {
 				"render" : function(data, type, row, meta) {
 					return data = '<a target ="_blank" href="https://bugzilla.redhat.com/show_bug.cgi?id='+data+'">'+data+'</a>';
 				}
+			},
+			{
+				"data" : null,
+				"render" : function(data, type, row, meta) {
+					return data = '<a href="#" class="badge badge-primary" data-toggle="modal" data-target="#update_case_modal" data-case-id="'+row.case_id+'">edit</a>';
+				}
 			}
 		],
 	});
