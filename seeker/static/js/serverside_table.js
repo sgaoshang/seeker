@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	//alert("his");
-	$('#case_his_table').DataTable({
+	var serverside_table = $('#case_his_table').DataTable({
 		"bSort" : false,
 		"bFilter" : false,
 		"processing" : true,
