@@ -35,12 +35,12 @@
 
   <script>
   $(document).ready(function() {
-      $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-          //var target = $(e.target).attr("href"); // activated tab
-          //alert (target);
-          $($.fn.dataTable.tables( true ) ).css('width', '100%');
-          $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
-      } ); 
+    $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
+      //var target = $(e.target).attr("href"); // activated tab
+      //alert (target);
+      $($.fn.dataTable.tables( true ) ).css('width', '100%');
+      $($.fn.dataTable.tables( true ) ).DataTable().columns.adjust().draw();
+    } ); 
   });
   </script>
 
@@ -88,29 +88,28 @@
   </div>
 
   <script>
-    $('#case_details_modal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var case_id = button.data('case-id') // Extract info from data-* attributes
-      var modal = $(this)
-      var data={
-        'case_id':case_id,
+  $('#case_details_modal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var case_id = button.data('case-id'); // Extract info from data-* attributes
+    var modal = $(this);
+    var data={
+      'case_id':case_id,
+    };
+    //alert(JSON.stringify(data));
+    $.ajax({
+      type:'POST',
+      url:'{{ url_for("case.show_case_details") }}',
+      data:JSON.stringify(data),
+      contentType:'application/json',
+      dataType:'json',
+      success:function(ret_data){
+        //var case_details = JSON.stringify(ret_data);
+        var case_details = ret_data.case_details;
+        modal.find('.modal-title').text('Case Details: '+case_id);
+        modal.find('.modal-body').html(case_details);
       }
-      //alert(JSON.stringify(data));
-      $.ajax({
-        type:'POST',
-        url:'{{ url_for("case.show_case_details") }}',
-        data:JSON.stringify(data),
-        contentType:'application/json',
-        dataType:'json',
-        success:function(ret_data){
-          //var case_details = JSON.stringify(ret_data);
-          var case_details = ret_data.case_details
-          //alert(case_details);
-          modal.find('.modal-title').text('Case Details: '+case_id);
-          modal.find('.modal-body').html(case_details);
-        }
-      });
-    })
+    });
+  })
   </script>
 
   <!-- Update Case Modal -->
