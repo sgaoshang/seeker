@@ -82,7 +82,7 @@ class CPCaseScraper(object):
         cases_list = []
         search_request = {
             "account_number":   "477931",
-            "limit":            "5",
+            "limit":            "10",
             "newSearch":        "true",
             "partnerSearch":    "false",
             "query":            "virt\-who AND case_status:*",
@@ -93,7 +93,7 @@ class CPCaseScraper(object):
         pageno = 0
         search_request['start'] = pageno
 
-        while pageno < 3:
+        while pageno < 1:
             r = requests.get(
                 url='https://access.redhat.com/rs/cases',
                 params=search_request,
@@ -101,7 +101,7 @@ class CPCaseScraper(object):
             )
             # print r.url
             s = BeautifulSoup(r.content, "lxml")
-            # print s.find("totalcount").string
+            print s.find("totalcount").string
             for case in s.findAll("case"):
                 case_dict = {}
                 created_date = case.createddate.text[0:10]
@@ -118,9 +118,9 @@ class CPCaseScraper(object):
                 # case_dict["lastmodifieddate"] = case.createddate.text
                 # case_dict["summary"] = case.summary.text
                 case_dict["status"] = case.status.text
-                # case_dict["predict"] = 1
+                case_dict["predict"] = 1
                 logger.debug("classify case: %s" % case_id)
-                case_dict["predict"] = classifier.classify(self.scrape_case_messages(case_id))
+#                 case_dict["predict"] = classifier.classify(self.scrape_case_messages(case_id))
                 cases_list.append(case_dict)
             # Next page
             pageno += 1

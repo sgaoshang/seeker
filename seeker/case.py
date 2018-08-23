@@ -32,7 +32,7 @@ def show_new_table():
     scraper = CPCaseScraper()
     case_list = scraper.scrape_cases_via_date(search_date)
 
-    logger.debug("before case_list: %s" % case_list)
+    # logger.debug("before case_list: %s" % case_list)
     db = get_db()
     min_date = ""
     for case in case_list:
@@ -45,7 +45,7 @@ def show_new_table():
         logger.debug("update search date to: %s" % min_date)
         update_search_date("2018-8-5")
 
-    logger.debug("after case_list: %s" % case_list)
+    # logger.debug("after case_list: %s" % case_list)
     case_dict['data'] = case_list
     logger.debug("show_new_table: %s" % case_dict)
     return jsonify(case_dict)

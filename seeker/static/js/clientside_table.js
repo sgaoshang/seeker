@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	//alert("new");
 	$('#case_new_table').DataTable({
-		"bSort" : false,
+		"bSort" : true,
 		"bFilter" : false,
 		"processing" : true,
 		"bServerSide" : false,
@@ -26,7 +26,8 @@ $(document).ready(function() {
 			},
 			{
 				"data" : "validate",
-				"defaultContent": "-"
+				"defaultContent": "-",
+				"sortable": false
 			},
 			{
 				"data" : "case_date"

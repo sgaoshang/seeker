@@ -260,28 +260,29 @@
       </div>
     </div>
   </div>
-  
+
   <script>
-    $('#save_case_modal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var case_id = button.data('case-id') // Extract info from data-* attributes
-      var predict = button.data('predict')
-      var case_date = button.data('case-date')
-      var status = button.data('status')
-      var modal = $(this)
-  
-      modal.find('.modal-title').text('Save Case: '+case_id)
-      modal.find('.modal-body #case-id').val(case_id)
-      modal.find('.modal-body #predict').val(predict)
-      modal.find('.modal-body #case-date').val(case_date)
-      modal.find('.modal-body #status').val(status)
-    });
     $(function(){
-      $('#save-case-button').click(function(e){
-        //e.preventDefault();
-        $('#save-case-form').submit();
-        $('#save_case_modal').modal('hide');
-        //Todo: refresh datatables
+      $('#save_case_modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var case_id = button.data('case-id') // Extract info from data-* attributes
+        var predict = button.data('predict')
+        var case_date = button.data('case-date')
+        var status = button.data('status')
+        var modal = $(this)
+        modal.find('.modal-title').text('Save Case: '+case_id)
+        modal.find('.modal-body #case-id').val(case_id)
+        modal.find('.modal-body #predict').val(predict)
+        modal.find('.modal-body #case-date').val(case_date)
+        modal.find('.modal-body #status').val(status)
+
+        $('#save-case-button').click(function(e){
+          //e.preventDefault();
+          $('#save-case-form').submit();
+          $('#save_case_modal').modal('hide');
+          //Todo: refresh datatables
+          button.closest("tr").remove()
+        });
       });
     });
   </script>
