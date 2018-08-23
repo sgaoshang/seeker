@@ -59,10 +59,10 @@ $(document).ready(function() {
 	});
 
 	$('#update_case_modal').on('show.bs.modal', function (event) {
-		var button = $(event.relatedTarget) // Button that triggered the modal
-		var case_id = button.data('case-id') // Extract info from data-* attributes
-		var case_cover = button.data('case-cover')
-		var bug_cover = button.data('bug-cover')
+		var modal_trigger = $(event.relatedTarget) // Button that triggered the modal
+		var case_id = modal_trigger.data('case-id') // Extract info from data-* attributes
+		var case_cover = modal_trigger.data('case-cover')
+		var bug_cover = modal_trigger.data('bug-cover')
 		var modal = $(this)
 		modal.find('.modal-title').text('Update Case: '+case_id)
 		modal.find('.modal-body #case-id').val(case_id)
@@ -70,12 +70,10 @@ $(document).ready(function() {
 		modal.find('.modal-body #bug-cover').val(bug_cover)
 	});
 
-	$(function(){
-		$('#update-case-button').click(function(e){
-			//e.preventDefault();
-			$('#update-case-form').submit();
-			$('#update_case_modal').modal('hide');
-			//Todo: refresh datatables
-		});
+	$('#update-case-button').click(function(e){
+		//e.preventDefault();
+		$('#update-case-form').submit();
+		$('#update_case_modal').modal('hide');
+		//Todo: refresh datatables
 	});
 });

@@ -58,9 +58,10 @@ $(document).ready(function() {
 			},
 		],
 	});
+
 	var modal_trigger=""
 
-		$('#save_case_modal').on('show.bs.modal', function (event) {
+	$('#save_case_modal').on('show.bs.modal', function (event) {
 		modal_trigger = $(event.relatedTarget) // Button that triggered the modal
 		var case_id = modal_trigger.data('case-id') // Extract info from data-* attributes
 		var predict = modal_trigger.data('predict')

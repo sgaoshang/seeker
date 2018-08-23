@@ -36,7 +36,8 @@ def show_new_table():
     db = get_db()
     min_date = ""
     for case in case_list:
-        if db.execute('SELECT * FROM cases WHERE case_id=%s' % (case["case_id"])).fetchone() is not None:
+        if db.execute('SELECT * FROM cases WHERE case_id="%s"' % (case["case_id"])).fetchone() is not None:
+            logger.debug("case already exist: %s" % case)
             case_list.remove(case)
         else:
             if min_date == "" or datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(case["case_date"], '%Y-%m-%d'):
@@ -125,7 +126,8 @@ def update_case():
         )
         db.commit()
         logger.debug("update_case")
-        return ('', 204)
+        # return ('', 204)
+        return render_template('case/case_base.html')
     flash(error)
     return render_template('case/case_base.html')
 #     if request.method == 'POST':
