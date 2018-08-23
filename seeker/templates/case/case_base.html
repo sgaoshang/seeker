@@ -86,7 +86,7 @@
       </div>
     </div>
   </div>
-  
+
   <script>
     $('#case_details_modal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
@@ -166,28 +166,6 @@
       </div>
     </div>
   </div>
-  
-  <script>
-    $('#update_case_modal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var case_id = button.data('case-id') // Extract info from data-* attributes
-      var case_cover = button.data('case-cover')
-      var bug_cover = button.data('bug-cover')
-      var modal = $(this)
-      modal.find('.modal-title').text('Update Case: '+case_id)
-      modal.find('.modal-body #case-id').val(case_id)
-      modal.find('.modal-body #case-cover').val(case_cover)
-      modal.find('.modal-body #bug-cover').val(bug_cover)
-    });
-    $(function(){
-      $('#update-case-button').click(function(e){
-        //e.preventDefault();
-        $('#update-case-form').submit();
-        $('#update_case_modal').modal('hide');
-        //Todo: refresh datatables
-      });
-    });
-  </script>
 
   <!-- Save Case Modal -->
   <div class="modal fade bd-example-modal-lg" id="save_case_modal" tabindex="-1" role="dialog" aria-labelledby="save_case_modal_title" aria-hidden="true">

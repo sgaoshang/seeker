@@ -58,25 +58,27 @@ $(document).ready(function() {
 			},
 		],
 	});
-    var row_trigger=""
-    $('#save_case_modal').on('show.bs.modal', function (event) {
-      row_trigger = $(event.relatedTarget) // Button that triggered the modal
-      var case_id = row_trigger.data('case-id') // Extract info from data-* attributes
-      var predict = row_trigger.data('predict')
-      var case_date = row_trigger.data('case-date')
-      var status = row_trigger.data('status')
-      var modal = $(this)
-      modal.find('.modal-title').text('Save Case: '+case_id)
-      modal.find('.modal-body #case-id').val(case_id)
-      modal.find('.modal-body #predict').val(predict)
-      modal.find('.modal-body #case-date').val(case_date)
-      modal.find('.modal-body #status').val(status)
-    });
-    $('#save-case-button').click(function(e){
-        //e.preventDefault();
-        $('#save-case-form').submit();
-        $('#save_case_modal').modal('hide');
-        //Todo: refresh datatables
-        clientside_table.row(row_trigger.closest("tr")).remove().draw( false );
-    });
+	var modal_trigger=""
+
+		$('#save_case_modal').on('show.bs.modal', function (event) {
+		modal_trigger = $(event.relatedTarget) // Button that triggered the modal
+		var case_id = modal_trigger.data('case-id') // Extract info from data-* attributes
+		var predict = modal_trigger.data('predict')
+		var case_date = modal_trigger.data('case-date')
+		var status = modal_trigger.data('status')
+		var modal = $(this)
+		modal.find('.modal-title').text('Save Case: '+case_id)
+		modal.find('.modal-body #case-id').val(case_id)
+		modal.find('.modal-body #predict').val(predict)
+		modal.find('.modal-body #case-date').val(case_date)
+		modal.find('.modal-body #status').val(status)
+	});
+
+	$('#save-case-button').click(function(e){
+		//e.preventDefault();
+		$('#save-case-form').submit();
+		$('#save_case_modal').modal('hide');
+		//Todo: refresh datatables
+		clientside_table.row(modal_trigger.closest("tr")).remove().draw( false );
+	});
 });
