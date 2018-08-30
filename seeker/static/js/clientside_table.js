@@ -79,7 +79,7 @@ $(document).ready(function() {
     //e.preventDefault();
     $('#save-case-form').submit();
     $('#save_case_modal').modal('hide');
-    //Todo: refresh datatables
+    //refresh datatables
     clientside_table.row(modal_trigger.closest("tr")).remove().draw( false );
   });
 });

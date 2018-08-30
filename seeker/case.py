@@ -126,8 +126,8 @@ def update_case():
         )
         db.commit()
         logger.debug("update_case")
-        # return ('', 204)
-        return render_template('case/case_base.html')
+        return ('', 204)
+        # return render_template('case/case_base.html')
     flash(error)
     return render_template('case/case_base.html')
 #     if request.method == 'POST':

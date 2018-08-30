@@ -74,6 +74,8 @@ $(document).ready(function() {
     //e.preventDefault();
     $('#update-case-form').submit();
     $('#update_case_modal').modal('hide');
-    //Todo: refresh datatables
+    //refresh datatables
+    serverside_table.ajax.reload();
+    //location.reload();
   });
 });

@@ -24,7 +24,7 @@ print end - start
 # 2018-07-09 19:01:34,724 - seaker_logger - DEBUG - Succeeded to generate vocabulary list
 # 2018-07-09 21:12:20,564 - seaker_logger - DEBUG - Succeeded to vectorize text words
 # 7857.97599602
-# 50+59 case
+# 50+50 case
 # 2018-07-10 10:43:47,558 - seaker_logger - DEBUG - Succeeded to generate vocabulary list
 # 2018-07-10 10:47:22,700 - seaker_logger - DEBUG - Succeeded to vectorize text words
 # 216.324535131
