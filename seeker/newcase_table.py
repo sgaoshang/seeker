@@ -1,15 +1,19 @@
 from seeker.logger import logger
 from seeker.db import get_db
+from seeker.scraper.cp_case_scraper import CPCaseScraper
 
 
-class serverside_table(object):
+class newcase_table(object):
 
-    def __init__(self, request):
+    def __init__(self, request, case_id_list):
         self.table_data = None
         self.db = get_db()
-        self.cardinality = self.db.execute("select count(*) from cases").fetchone()[0]
-        # logger.debug("cardinality: %s" % self.cardinality)
+        self.scraper = CPCaseScraper()
+        self.case_id_list = case_id_list
+        self.cardinality = len(self.case_id_list)
+        logger.debug("cardinality: %s" % self.cardinality)
         self.request_values = request.values
+        # logger.debug("request_values: %s" % self.request_values)
         self.table_data = self._pagination()
 
     def _pagination(self):
@@ -23,14 +27,9 @@ class serverside_table(object):
             if end >= self.cardinality:
                 # display last page
                 length = self.cardinality - start
-        # logger.debug("limit: %s, %s" % (start, end))
-        db = get_db()
-        search_case_sql = 'SELECT case_id, predict, validate, case_date, case_cover, bug_cover, author_id, username FROM cases c JOIN user u ON c.author_id = u.id ORDER BY case_date DESC limit %s offset %s' % (length, start)
-        # logger.debug("search_case_sql: %s" % search_case_sql)
         cases_list = []
-        for row in db.execute(search_case_sql).fetchall():
-            cases_list.append(dict(row))
-        # logger.debug("cases_list: %s" % cases_list)
+        for case_id in self.case_id_list[start:start + length]:
+            cases_list.append(self.scraper.scrape_case_dict(case_id))
         return cases_list
 
     def get_table(self):
@@ -45,3 +44,17 @@ class serverside_table(object):
         response['iTotalDisplayRecords'] = str(self.cardinality)
         response['data'] = self.table_data
         return response
+
+    def get_search_date(self):
+        sql_search_date = 'SELECT search_date FROM cases_search_date WHERE component = "virt-who"'
+#         search_date = self.db.execute(sql_search_date).fetchone()[0]
+        search_date = "2018-08-21"
+        logger.debug("search_date: %s" % search_date)
+        return search_date
+
+    def update_search_date(self, search_date):
+        db = get_db()
+        db.execute(
+            'UPDATE cases_search_date SET search_date="%s" WHERE component = "virt-who"' % search_date
+        )
+        db.commit()

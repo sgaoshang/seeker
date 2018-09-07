@@ -1,7 +1,6 @@
 import requests, json, datetime
 from bs4 import BeautifulSoup
 from seeker.logger import logger
-
 from seeker.naivebayes import classifier
 
 # python2
@@ -78,11 +77,11 @@ class CPCaseScraper(object):
             search_request['start'] = pageno
         return cases
 
-    def scrape_cases_via_date(self, date_limit="2018-07-01"):
-        cases_list = []
+    def scrape_cases_id_via_date(self, search_date="2018-08-21"):
+        cases_id_list = []
         search_request = {
             "account_number":   "477931",
-            "limit":            "10",
+            "limit":            "50",
             "newSearch":        "true",
             "partnerSearch":    "false",
             "query":            "virt\-who AND case_status:*",
@@ -90,10 +89,59 @@ class CPCaseScraper(object):
             "sort":             "case_createdDate DESC",
             "start":            "0"
         }
-        pageno = 0
-        search_request['start'] = pageno
+        search_start = 0
+        search_request['start'] = search_start
 
-        while pageno < 1:
+        while search_start < 100000:
+            r = requests.get(
+                url='https://access.redhat.com/rs/cases',
+                params=search_request,
+                auth=self.get_auth(),
+            )
+            s = BeautifulSoup(r.content, "lxml")
+            for case in s.findAll("case"):
+                created_date = case.createddate.text[0:10]
+                if datetime.datetime.strptime(created_date, '%Y-%m-%d') > datetime.datetime.strptime(search_date, '%Y-%m-%d'):
+                    case_id = case.attrs["casenumber"]
+                    logger.debug("scraped case: %s" % case_id)
+                    cases_id_list.append(case_id)
+                else:
+                    logger.debug("exceeded date limit")
+                    # need to check whether case missed
+                    return cases_id_list
+            # Next page
+            search_start += int(search_request['limit'])
+            search_request['start'] = search_start
+
+        min_date = ""
+        for case in cases_id_list:
+            if self.db.execute('SELECT * FROM cases WHERE case_id="%s"' % (case["case_id"])).fetchone() is not None:
+                logger.debug("case already exist: %s" % case)
+                cases_id_list.remove(case)
+            else:
+                if min_date == "" or datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(case["case_date"], '%Y-%m-%d'):
+                    min_date = case["case_date"]
+        if datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(search_date, '%Y-%m-%d'):
+            logger.debug("update search date to: %s" % min_date)
+            # update_search_date("2018-08-20")
+        return cases_id_list
+
+    def scrape_cases_via_date(self, date_limit="2018-08-21"):
+        cases_list = []
+        search_request = {
+            "account_number":   "477931",
+            "limit":            "50",
+            "newSearch":        "true",
+            "partnerSearch":    "false",
+            "query":            "virt\-who AND case_status:*",
+            "redhat_client":    "Red Hat Customer Portal 1.3.64",
+            "sort":             "case_createdDate DESC",
+            "start":            "0"
+        }
+        search_start = 0
+        search_request['start'] = search_start
+
+        while search_start < 100000:
             r = requests.get(
                 url='https://access.redhat.com/rs/cases',
                 params=search_request,
@@ -123,9 +171,57 @@ class CPCaseScraper(object):
                 case_dict["predict"] = classifier.classify(self.scrape_case_messages(case_id))
                 cases_list.append(case_dict)
             # Next page
-            pageno += 1
-            search_request['start'] = pageno
-#             logger.debug(case_dict["createddate"])
+            search_start += int(search_request['limit'])
+            search_request['start'] = search_start
+        return cases_list
+
+    def scrape_cases_via_period(self, date_start="2018-08-01", date_end="2018-09-01"):
+        cases_list = []
+        search_request = {
+            "account_number":   "477931",
+            "limit":            "50",
+            "newSearch":        "true",
+            "partnerSearch":    "false",
+            "query":            "virt\-who AND case_status:*",
+            "redhat_client":    "Red Hat Customer Portal 1.3.64",
+            "sort":             "case_createdDate DESC",
+            "start":            "0"
+        }
+        search_start = 0
+        search_request['start'] = search_start
+
+        while search_start < 100000:
+            r = requests.get(
+                url='https://access.redhat.com/rs/cases',
+                params=search_request,
+                auth=self.get_auth(),
+            )
+            s = BeautifulSoup(r.content, "lxml")
+            for case in s.findAll("case"):
+                case_dict = {}
+                created_date = case.createddate.text[0:10]
+                logger.debug(created_date)
+                if datetime.datetime.strptime(created_date, '%Y-%m-%d') > datetime.datetime.strptime(date_end, '%Y-%m-%d'):
+                    logger.debug("new than date_end, do nothing...")
+                    continue
+                if datetime.datetime.strptime(date_start, '%Y-%m-%d') > datetime.datetime.strptime(created_date, '%Y-%m-%d'):
+                    logger.debug("old than date_start, stop...")
+                    return cases_list
+                logger.debug("add case ...")
+                # need to check whether case missed
+                case_dict["case_date"] = created_date
+                case_id = case.attrs["casenumber"]
+                case_dict["case_id"] = case_id
+                # case_dict["lastmodifieddate"] = case.createddate.text
+                # case_dict["summary"] = case.summary.text
+                case_dict["status"] = case.status.text
+                case_dict["predict"] = 1
+                logger.debug("classify case: %s" % case_id)
+#                 case_dict["predict"] = classifier.classify(self.scrape_case_messages(case_id))
+                cases_list.append(case_dict)
+            # Next page
+            search_start += int(search_request['limit'])
+            search_request['start'] = search_start
         return cases_list
 
     def scrape_case_messages(self, case_number):
@@ -146,6 +242,32 @@ class CPCaseScraper(object):
         messages.reverse()
         # logger.debug(len(messages))
         return unescape(str(messages).replace("\\n", "<br>"))
+
+    def scrape_case_dict(self, case_number):
+        case_dict = {}
+        messages = []
+        case_url = 'https://access.redhat.com/rs/cases/%s' % case_number
+        r = requests.get(
+            url=case_url,
+            params={"account_number":"477931", "redhat_client":"Red Hat Customer Portal 1.3.34"},
+            auth=self.get_auth(),
+        )
+        s = BeautifulSoup(r.content, "lxml")
+        description = s.findAll("description")
+        for message in s.findAll("text"):
+            messages.append(message)
+        messages.append(description)
+        messages.reverse()
+        messages_string = unescape(str(messages).replace("\\n", "<br>"))
+
+        case_dict["case_id"] = case_number
+        case_dict["case_date"] = s.createddate.text[0:10]
+        case_dict["summary"] = s.summary.text
+        case_dict["status"] = s.status.text
+        logger.debug("classify case: %s" % case_number)
+        #case_dict["predict"] = 1
+        case_dict["predict"] = classifier.classify(messages_string)
+        return case_dict
 
     def scrape_his_data(self):
         valid_cases = []
@@ -204,8 +326,9 @@ class CPCaseScraper(object):
 
 if __name__ == '__main__':
     scraper = CPCaseScraper()
-    print scraper.scrape_cases_via_date()
-#     print scraper.scrape_case_messages("01322510")
+#     print scraper.scrape_cases_via_date()
+#     scraper.scrape_cases_via_period()
+    print scraper.scrape_case_dict("01322510")
 #     for item in scraper.scrape_case_messages("dd"):
 #         print item
 #     import time

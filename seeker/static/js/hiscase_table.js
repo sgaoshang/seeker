@@ -1,12 +1,12 @@
 $(document).ready(function() {
   //alert("his");
-  var serverside_table = $('#case_his_table').DataTable({
+  var hiscase_table = $('#case_his_table').DataTable({
     "bSort" : false,
     "bFilter" : false,
     "processing" : true,
     "bServerSide" : true,
     "aLengthMenu" : [ 10, 20 ,50 ],
-    "sAjaxSource" : "/show_his_table",
+    "sAjaxSource" : "/show_hiscase_table",
     "columns" : [
       {
         "data" : "case_id",
@@ -75,7 +75,7 @@ $(document).ready(function() {
     $('#update-case-form').submit();
     $('#update_case_modal').modal('hide');
     //refresh datatables
-    serverside_table.ajax.reload();
+    hiscase_table.ajax.reload();
     //location.reload();
   });
 });

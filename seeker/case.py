@@ -1,14 +1,13 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, json
 )
 from werkzeug.exceptions import abort
 from seeker.auth import login_required
 from seeker.db import get_db
-from seeker.serverside_table import serverside_table
+from seeker.hiscase_table import hiscase_table
+from seeker.newcase_table import newcase_table
 from seeker.logger import logger
 from seeker.scraper.cp_case_scraper import CPCaseScraper
-
-import datetime
 
 bp = Blueprint('case', __name__)
 
@@ -18,43 +17,36 @@ def show_case():
     return render_template('case/case_base.html')
 
 
-@bp.route("/show_his_table", methods=('GET', 'POST'))
-def show_his_table():
-    show_data = serverside_table(request).get_table()
-    logger.debug("show_his_table: %s" % show_data)
+@bp.route("/show_hiscase_table", methods=('GET', 'POST'))
+def show_hiscase_table():
+    show_data = hiscase_table(request).get_table()
+    logger.debug("show_hiscase_table: %s" % show_data)
     return jsonify(show_data)
 
 
-@bp.route("/show_new_table", methods=('GET', 'POST'))
-def show_new_table():
-    case_dict = {}
+@bp.route("/show_newcase_table", methods=('GET', 'POST'))
+def show_newcase_table():
+    case_id_list = json.loads(request.args.get("case_id_list"))
+    # case_id_list = ['02175590', '02175532']
+    # logger.debug("case_id_list: %s" % case_id_list)
+    show_data = newcase_table(request, case_id_list).get_table()
+    logger.debug("show_newcase_table: %s" % show_data)
+    return jsonify(show_data)
+
+
+@bp.route("/get_case_id_list", methods=('GET',))
+def get_case_id_list():
     search_date = get_search_date()
     scraper = CPCaseScraper()
-    case_list = scraper.scrape_cases_via_date(search_date)
-
-    # logger.debug("before case_list: %s" % case_list)
-    db = get_db()
-    min_date = ""
-    for case in case_list:
-        if db.execute('SELECT * FROM cases WHERE case_id="%s"' % (case["case_id"])).fetchone() is not None:
-            logger.debug("case already exist: %s" % case)
-            case_list.remove(case)
-        else:
-            if min_date == "" or datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(case["case_date"], '%Y-%m-%d'):
-                min_date = case["case_date"]
-    if datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(search_date, '%Y-%m-%d'):
-        logger.debug("update search date to: %s" % min_date)
-        update_search_date("2018-8-5")
-
-    # logger.debug("after case_list: %s" % case_list)
-    case_dict['data'] = case_list
-    logger.debug("show_new_table: %s" % case_dict)
-    return jsonify(case_dict)
+    case_id_list = scraper.scrape_cases_id_via_date(search_date)
+    logger.debug("get_case_id_list before hand: %s" % case_id_list)
+    return jsonify({"case_id_list":case_id_list})
 
 
 def get_search_date():
     sql_search_date = 'SELECT search_date FROM cases_search_date WHERE component = "virt-who"'
-    search_date = get_db().execute(sql_search_date).fetchone()[0]
+#         search_date = self.db.execute(sql_search_date).fetchone()[0]
+    search_date = "2018-08-30"
     logger.debug("search_date: %s" % search_date)
     return search_date
 
@@ -65,6 +57,47 @@ def update_search_date(search_date):
         'UPDATE cases_search_date SET search_date="%s" WHERE component = "virt-who"' % search_date
     )
     db.commit()
+
+# @bp.route("/show_new_table", methods=('GET', 'POST'))
+# def show_new_table():
+#     case_dict = {}
+#     search_date = get_search_date()
+#     scraper = CPCaseScraper()
+#     case_list = scraper.scrape_cases_via_date(search_date)
+# 
+#     # logger.debug("before case_list: %s" % case_list)
+#     db = get_db()
+#     min_date = ""
+#     for case in case_list:
+#         if db.execute('SELECT * FROM cases WHERE case_id="%s"' % (case["case_id"])).fetchone() is not None:
+#             logger.debug("case already exist: %s" % case)
+#             case_list.remove(case)
+#         else:
+#             if min_date == "" or datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(case["case_date"], '%Y-%m-%d'):
+#                 min_date = case["case_date"]
+#     if datetime.datetime.strptime(min_date, '%Y-%m-%d') > datetime.datetime.strptime(search_date, '%Y-%m-%d'):
+#         logger.debug("update search date to: %s" % min_date)
+#         update_search_date("2018-8-5")
+# 
+#     # logger.debug("after case_list: %s" % case_list)
+#     case_dict['data'] = case_list
+#     logger.debug("show_new_table: %s" % case_dict)
+#     return jsonify(case_dict)
+# 
+# 
+# def get_search_date():
+#     sql_search_date = 'SELECT search_date FROM cases_search_date WHERE component = "virt-who"'
+#     search_date = get_db().execute(sql_search_date).fetchone()[0]
+#     logger.debug("search_date: %s" % search_date)
+#     return search_date
+# 
+# 
+# def update_search_date(search_date):
+#     db = get_db()
+#     db.execute(
+#         'UPDATE cases_search_date SET search_date="%s" WHERE component = "virt-who"' % search_date
+#     )
+#     db.commit()
 
 
 @bp.route("/show_case_details", methods=('GET', 'POST'))
