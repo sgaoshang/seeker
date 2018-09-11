@@ -26,14 +26,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
-    @app.route('/start')
-    def start():
-        from flask import render_template
-        return render_template('tables.html')
+#     @app.route('/hello')
+#     def hello():
+#         return 'Hello, World!'
+# 
+#     @app.route('/start')
+#     def start():
+#         from flask import render_template
+#         return render_template('tables.html')
 
     # register the database commands
     from seeker import db

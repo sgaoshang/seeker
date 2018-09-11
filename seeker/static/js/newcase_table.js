@@ -1,4 +1,5 @@
-$(document).ready(function() {
+//$(document).ready(function() {
+$('a[id="newcase-tab"]').click(function () {
   var case_id_list="";
   var newcase_table="";
   //$.get({
