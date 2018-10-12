@@ -1,42 +1,23 @@
-*.py[cod]
-
-# C extensions
-*.so
-
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
-__pycache__
-
-# Installer logs
-pip-log.txt
-
-# Unit test / coverage reports
-.coverage
-.tox
-nosetests.xml
-
-# Translations
+#ignore translations
 *.mo
 
-# Mr Developer
-.mr.developer.cfg
+#ignore virtual env
+venv
+.env
+
+#ignore db
+app.db
+
+#ignore log
+logs
+
+#ignore pyc file
+*.pyc
+
+#ignore gedit file
+*~
+
+#ignore eclipse workspace
 .project
 .pydevproject
-
-venv
-app.db
-microblog.log*
-
-.env
+.settings
