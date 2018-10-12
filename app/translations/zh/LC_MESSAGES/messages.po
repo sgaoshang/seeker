@@ -1,0 +1,439 @@
+# Chinese translations for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-10-12 17:48+0800\n"
+"PO-Revision-Date: 2018-10-12 17:48+0800\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh\n"
+"Language-Team: zh <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.1\n"
+
+#: app/__init__.py:22
+msgid "Please log in to access this page."
+msgstr "请登陆访问"
+
+#: app/auth/email.py:8
+msgid "[Seeker] Reset Your Password"
+msgstr "[Seeker] 重置密码"
+
+#: app/auth/forms.py:9 app/auth/forms.py:16 app/user/forms.py:9
+msgid "Username"
+msgstr "用户"
+
+#: app/auth/forms.py:10 app/auth/forms.py:18 app/auth/forms.py:47
+msgid "Password"
+msgstr "密码"
+
+#: app/auth/forms.py:11
+msgid "Remember Me"
+msgstr "记住我？"
+
+#: app/auth/forms.py:12 app/auth/routes.py:29 app/templates/auth/login.html:5
+msgid "Sign In"
+msgstr "登陆"
+
+#: app/auth/forms.py:17 app/auth/forms.py:37
+msgid "Email"
+msgstr "邮箱"
+
+#: app/auth/forms.py:20 app/auth/forms.py:49
+msgid "Repeat Password"
+msgstr "重复密码"
+
+#: app/auth/forms.py:23 app/auth/routes.py:51
+#: app/templates/auth/register.html:5
+msgid "Register"
+msgstr "注册"
+
+#: app/auth/forms.py:28 app/user/forms.py:22
+msgid "Please use a different username."
+msgstr "请用另一个用户"
+
+#: app/auth/forms.py:33
+msgid "Please use a different email address."
+msgstr "请用另一个邮箱地址"
+
+#: app/auth/forms.py:38 app/auth/forms.py:51
+msgid "Request Password Reset"
+msgstr "请求重置密码"
+
+#: app/auth/forms.py:43
+msgid "Please use a different email."
+msgstr "请用另一个邮箱"
+
+#: app/auth/routes.py:21
+msgid "Invalid username or password"
+msgstr "非法的用户名或密码"
+
+#: app/auth/routes.py:49
+msgid "Congratulations, you are now a registered user!"
+msgstr "恭喜你，现在你已成为注册用户！"
+
+#: app/auth/routes.py:65
+msgid "Check your email for the instructions to reset your password"
+msgstr "请检查邮件，根据提示重置密码"
+
+#: app/auth/routes.py:68 app/templates/auth/reset_password_request.html:5
+msgid "Reset Password"
+msgstr "重置密码"
+
+#: app/auth/routes.py:82
+msgid "Your password has been reset."
+msgstr "你的密码已重置"
+
+#: app/case/forms.py:9 app/message/forms.py:14 app/message/routes.py:83
+#: app/templates/message/message.html:17
+msgid "Search"
+msgstr "查找"
+
+#: app/case/forms.py:20 app/templates/case/his_case.html:7
+#: app/templates/case/new_case.html:7
+msgid "Case_ID"
+msgstr "用例ID"
+
+#: app/case/forms.py:21 app/templates/case/his_case.html:10
+#: app/templates/case/new_case.html:10
+msgid "Validate"
+msgstr "验证"
+
+#: app/case/forms.py:22 app/templates/case/his_case.html:13
+#: app/templates/case/new_case.html:13
+msgid "Case_Cover"
+msgstr "用例覆盖"
+
+#: app/case/forms.py:23 app/templates/case/his_case.html:14
+#: app/templates/case/new_case.html:14
+msgid "Bug_Cover"
+msgstr "Bug覆盖"
+
+#: app/case/routes.py:55 app/templates/case/base_case.html:13
+#: app/templates/case/base_case.html:27
+msgid "His Case"
+msgstr "旧的用例"
+
+#: app/case/routes.py:128 app/templates/case/base_case.html:14
+#: app/templates/case/base_case.html:28
+msgid "New Case"
+msgstr "新的用例"
+
+#: app/case/routes.py:169 app/templates/base.html:34
+#: app/templates/case/base_case.html:15 app/templates/case/base_case.html:29
+msgid "New Component"
+msgstr "新的组件"
+
+#: app/message/forms.py:9
+msgid "Post new message:"
+msgstr "发布新消息："
+
+#: app/message/forms.py:10 app/user/forms.py:12
+msgid "Submit"
+msgstr "提交"
+
+#: app/message/routes.py:33
+msgid "Your post is now live!"
+msgstr "你的发布已激活！"
+
+#: app/message/routes.py:42
+msgid "New Message"
+msgstr "新的消息"
+
+#: app/message/routes.py:57
+msgid "Explore"
+msgstr "浏览"
+
+#: app/message/translate.py:29
+msgid "Error: the translation service failed."
+msgstr "错误：翻译服务失败"
+
+#: app/templates/base.html:4
+msgid "Welcome to Seeker"
+msgstr "欢迎访问Seeker"
+
+#: app/templates/base.html:21
+msgid "Home"
+msgstr "主页"
+
+#: app/templates/base.html:24
+msgid "Component"
+msgstr "组件"
+
+#: app/templates/base.html:39
+msgid "Message"
+msgstr "消息"
+
+#: app/templates/base.html:53
+msgid "Login"
+msgstr "登陆"
+
+#: app/templates/base.html:55
+msgid "Profile"
+msgstr "简介"
+
+#: app/templates/base.html:56
+msgid "Logout"
+msgstr "注销"
+
+#: app/templates/base.html:105
+msgid "Error: Could not contact server."
+msgstr "错误：无法连接到服务器"
+
+#: app/templates/auth/login.html:12
+msgid "New User?"
+msgstr "新的用户？"
+
+#: app/templates/auth/login.html:12
+msgid "Click to Register!"
+msgstr "点击注册"
+
+#: app/templates/auth/login.html:14
+msgid "Forgot Your Password?"
+msgstr "忘记密码？"
+
+#: app/templates/auth/login.html:15
+msgid "Click to Reset It"
+msgstr "点击重置"
+
+#: app/templates/auth/reset_password.html:5
+msgid "Reset Your Password"
+msgstr "重置密码"
+
+#: app/templates/case/_his_case.html:6 app/templates/case/_new_case.html:6
+msgid "details"
+msgstr "详情"
+
+#: app/templates/case/_his_case.html:27
+msgid "edit"
+msgstr "编辑"
+
+#: app/templates/case/_new_case.html:27
+msgid "save"
+msgstr "保存"
+
+#: app/templates/case/base_case.html:6
+#, python-format
+msgid "Hi, %(username)s, here are %(component)s related cases!"
+msgstr "你好, %(username)s, 这是 %(component)s 相关的用例"
+
+#: app/templates/case/base_case.html:8
+#, python-format
+msgid "Hi, %(username)s, please select a component!"
+msgstr "你好, %(username)s, 请选择一个组件！"
+
+#: app/templates/case/base_case.html:39
+msgid "Case Details: "
+msgstr "用例详情： "
+
+#: app/templates/case/base_case.html:43
+msgid "Loading ..."
+msgstr "加载中 ..."
+
+#: app/templates/case/base_case.html:48
+msgid "Close"
+msgstr "关闭"
+
+#: app/templates/case/base_case.html:64
+msgid "Update Case: "
+msgstr "更新用例： "
+
+#: app/templates/case/base_case.html:68 app/templates/case/base_case.html:119
+msgid "Case_ID:"
+msgstr "用例ID："
+
+#: app/templates/case/base_case.html:74 app/templates/case/base_case.html:131
+msgid "Validate:"
+msgstr "验证："
+
+#: app/templates/case/base_case.html:83 app/templates/case/base_case.html:152
+msgid "Case_Cover:"
+msgstr "用例覆盖："
+
+#: app/templates/case/base_case.html:89 app/templates/case/base_case.html:158
+msgid "Bug_Cover:"
+msgstr "Bug覆盖："
+
+#: app/templates/case/base_case.html:97 app/templates/case/base_case.html:166
+msgid "Cancel"
+msgstr "取消"
+
+#: app/templates/case/base_case.html:98 app/templates/case/base_case.html:167
+#: app/templates/case/new_case.html:15
+msgid "Save"
+msgstr "保存"
+
+#: app/templates/case/base_case.html:115
+msgid "Save Case: "
+msgstr "保存用例： "
+
+#: app/templates/case/base_case.html:125
+msgid "Predict:"
+msgstr "预测："
+
+#: app/templates/case/base_case.html:140
+msgid "Case_Date:"
+msgstr "用例日期："
+
+#: app/templates/case/base_case.html:146
+msgid "Status:"
+msgstr "状态："
+
+#: app/templates/case/his_case.html:8 app/templates/case/new_case.html:8
+msgid "Details"
+msgstr "详情："
+
+#: app/templates/case/his_case.html:9 app/templates/case/new_case.html:9
+msgid "Predict"
+msgstr "预测"
+
+#: app/templates/case/his_case.html:11 app/templates/case/new_case.html:11
+msgid "Case_Date"
+msgstr "用例日期"
+
+#: app/templates/case/his_case.html:12 app/templates/case/new_case.html:12
+msgid "Status"
+msgstr "状态"
+
+#: app/templates/case/his_case.html:15
+msgid "Edit"
+msgstr "编辑"
+
+#: app/templates/case/his_case.html:25 app/templates/case/new_case.html:25
+msgid "No case founded!"
+msgstr "没有找到用例！"
+
+#: app/templates/case/his_case.html:34 app/templates/case/new_case.html:34
+msgid "Newer cases"
+msgstr "新的用例"
+
+#: app/templates/case/his_case.html:39 app/templates/case/new_case.html:39
+msgid "Older cases"
+msgstr "旧的用例"
+
+#: app/templates/case/search.html:4 app/templates/message/search.html:4
+msgid "Search Results"
+msgstr "搜索结果"
+
+#: app/templates/case/search.html:12 app/templates/message/search.html:12
+msgid "Previous results"
+msgstr "上个结果"
+
+#: app/templates/case/search.html:17 app/templates/message/search.html:17
+msgid "Next results"
+msgstr "下个结果"
+
+#: app/templates/errors/404.html:4
+msgid "Not Found"
+msgstr "没有找到"
+
+#: app/templates/errors/404.html:5 app/templates/errors/500.html:6
+msgid "Back"
+msgstr "返回"
+
+#: app/templates/errors/500.html:4
+msgid "An unexpected error has occurred"
+msgstr "发生了未知的错误"
+
+#: app/templates/errors/500.html:5
+msgid "The administrator has been notified. Sorry for the inconvenience!"
+msgstr "已经通知了系统管理员，非常抱歉给你带来不便！"
+
+#: app/templates/message/_post.html:14
+#, python-format
+msgid "%(username)s said %(when)s"
+msgstr "%(username)s 说 %(when)s"
+
+#: app/templates/message/_post.html:25
+msgid "Translate"
+msgstr "翻译"
+
+#: app/templates/message/message.html:7
+#, python-format
+msgid "Hi, %(username)s, leave message "
+msgstr "你好, %(username)s, 留个言 "
+
+#: app/templates/message/message.html:8
+msgid "here"
+msgstr "这里"
+
+#: app/templates/message/message.html:33 app/templates/user/user.html:31
+msgid "Newer posts"
+msgstr "新的发布"
+
+#: app/templates/message/message.html:38 app/templates/user/user.html:36
+msgid "Older posts"
+msgstr "旧的发布"
+
+#: app/templates/user/edit_profile.html:5 app/user/routes.py:39
+msgid "Edit Profile"
+msgstr "编辑简介"
+
+#: app/templates/user/user.html:8
+msgid "User"
+msgstr "用户"
+
+#: app/templates/user/user.html:11
+msgid "Last seen on"
+msgstr "最后登陆"
+
+#: app/templates/user/user.html:13
+#, python-format
+msgid "%(count)d followers"
+msgstr "%(count)d 被关注"
+
+#: app/templates/user/user.html:13
+#, python-format
+msgid "%(count)d following"
+msgstr "%(count)d 关注中"
+
+#: app/templates/user/user.html:15
+msgid "Edit your profile"
+msgstr "编辑你的简介"
+
+#: app/templates/user/user.html:17
+msgid "Follow"
+msgstr "关注"
+
+#: app/templates/user/user.html:19
+msgid "Unfollow"
+msgstr "取消关注"
+
+#: app/user/forms.py:10
+msgid "About me"
+msgstr "关于我"
+
+#: app/user/routes.py:34
+msgid "Your changes have been saved."
+msgstr "你的更改已保存"
+
+#: app/user/routes.py:48 app/user/routes.py:64
+#, python-format
+msgid "User %(username)s not found."
+msgstr "用户 %(username)s 没找到"
+
+#: app/user/routes.py:51
+msgid "You cannot follow yourself!"
+msgstr "你不能关注自己！"
+
+#: app/user/routes.py:55
+#, python-format
+msgid "You are following %(username)s!"
+msgstr "你已关注 %(username)s！"
+
+#: app/user/routes.py:67
+msgid "You cannot unfollow yourself!"
+msgstr "你不能对自己取消关注！"
+
+#: app/user/routes.py:71
+#, python-format
+msgid "You are not following %(username)s."
+msgstr "你已取消关注 %(username)s"
+
