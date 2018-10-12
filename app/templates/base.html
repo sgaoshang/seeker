@@ -1,0 +1,182 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} - Seeker{% else %}{{ _('Welcome to Seeker') }}{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('index') }}">Seeker</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('index') }}">{{ _('Home') }}</a></li>
+                    {% if not current_user.is_anonymous %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ _('Component') }}<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            {% for component in CURRENT_COMPONENTS %}
+                            <li>
+                                <a href="{{ url_for('set_component', component=component) }}">{{ component }}</a>
+                            </li>
+                            {% endfor %}
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="#">{{ _('New Component') }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <li><a href="{{ url_for('message.explore') }}">{{ _('Message') }}</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav">
+                    {% set language = ['en', 'zh'] %}
+                    {% if CURRENT_LANGUAGE == language[0] %}
+                        <li><a href="{{ url_for('set_language', language=language[1]) }}" >[{{ language[1] }}]</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('set_language', language=language[0]) }}" >[{{ language[0] }}]</a></li>
+                    {% endif %}
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('user.user', username=current_user.username) }}">{{ _('Profile') }}</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang(CURRENT_LANGUAGE) }}
+    <script>
+        //$('[data-toggle="tabajax"]').click(function(e) {
+        //$('#case_tab a').on('click', function (e) {
+        //    var $this = $(this);
+        //    var loadurl = $this.attr('href');
+        //    var targ = $this.attr('data-target');
+        //    $.get(loadurl, function(data) {
+        //        $(targ).html(data);
+        //    });
+        //    $this.tab('show');
+        //    return false;
+        //});
+
+        function translate(sourceElem, destElem, sourceLang, destLang) {
+              $(destElem).html('<img src="{{ url_for('static', filename='img/loading.gif') }}">');
+              $.post('/message/translate', {
+                  text: $(sourceElem).text(),
+                  source_language: sourceLang,
+                  dest_language: destLang
+              }).done(function(response) {
+                  $(destElem).text(response['text'])
+              }).fail(function() {
+                  $(destElem).text("{{ _('Error: Could not contact server.') }}");
+              });
+        };
+
+        $('#case_details_modal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget); // Button that triggered the modal
+          var case_id = button.data('case-id'); // Extract info from data-* attributes
+          var component = "{{ current_user.last_component }}";
+          var modal = $(this);
+          var data={
+            'case_id':case_id,
+          };
+          //alert(JSON.stringify(data));
+          $.ajax({
+            type:'POST',
+            url:'{{ url_for("case.show_case_details") }}',
+            data:JSON.stringify(data),
+            contentType:'application/json',
+            dataType:'json',
+            success:function(ret_data){
+              //var case_details = JSON.stringify(ret_data);
+              var case_details = ret_data.case_details;
+              //alert(case_details.match('fake').length);
+              //modal.find('.modal-title').text('Case Details: '+case_id);
+              modal.find('.modal-title').text('Case Details: '+case_id+', hit '+component+': '+((case_details || '').match(component) || []).length);
+              modal.find('.modal-body').html(case_details.replace(component, '<font color="red">'+component+'</font>') );
+            }
+          });
+        })
+
+        $('#update_case_modal').on('show.bs.modal', function (event) {
+            var modal_trigger = $(event.relatedTarget); // Button that triggered the modal
+            var case_id = modal_trigger.data('case-id'); // Extract info from data-* attributes
+            var case_cover = modal_trigger.data('case-cover');
+            var bug_cover = modal_trigger.data('bug-cover');
+            var modal = $(this);
+            modal.find('.modal-title').text('Update Case: '+case_id);
+            modal.find('.modal-body #case-id').val(case_id);
+            modal.find('.modal-body #case-cover').val(case_cover);
+            modal.find('.modal-body #bug-cover').val(bug_cover);
+          });
+
+        $('#update-case-button').click(function(e){
+          //e.preventDefault();
+          $('#update-case-form').submit();
+          $('#update_case_modal').modal('hide');
+          //refresh datatables
+          //hiscase_table.ajax.reload();
+          //window.location.reload();
+          //document.location.reload(true);
+          //location.reload();
+        });
+
+        $('#save_case_modal').on('show.bs.modal', function (event) {
+          modal_trigger = $(event.relatedTarget); // Button that triggered the modal
+          var case_id = modal_trigger.data('case-id'); // Extract info from data-* attributes
+          var predict = modal_trigger.data('predict');
+          var case_date = modal_trigger.data('case-date');
+          var status = modal_trigger.data('status');
+          var modal = $(this);
+          modal.find('.modal-title').text('Save Case: '+case_id);
+          modal.find('.modal-body #case-id').val(case_id);
+          modal.find('.modal-body #predict').val(predict);
+          modal.find('.modal-body #case-date').val(case_date);
+          modal.find('.modal-body #status').val(status);
+        });
+
+        $('#save-case-button').click(function(e){
+          //e.preventDefault();
+          $('#save-case-form').submit();
+          $('#save_case_modal').modal('hide');
+          //refresh datatables
+          //location.reload();
+          //document.location.reload(true);
+        });
+
+    </script>
+{% endblock %}

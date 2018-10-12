@@ -1,6 +1,0 @@
-include LICENSE
-include seeker/schema.sql
-graft seeker/static
-graft seeker/templates
-graft tests
-global-exclude *.pyc

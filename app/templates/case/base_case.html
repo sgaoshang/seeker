@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    {% if not current_user.is_anonymous %}
+        {% if current_user.last_component %}
+            <h3>{{ _('Hi, %(username)s, here are %(component)s related cases!', username=current_user.username, component=current_user.last_component) }}</h3>
+        {% else %}
+            <h3>{{ _('Hi, %(username)s, please select a component!', username=current_user.username) }}</h3>
+        {% endif %}
+    {% endif %}
+
+    <ul id="case_tab" class="nav nav-tabs">
+        <li><a href="{{ url_for('case.his_case') }}" data-target="#his_case" data-toggle="tabajax">{{ _('His Case') }}</a></li>
+        <li><a href="{{ url_for('case.new_case') }}" data-target="#new_case" data-toggle="tabajax">{{ _('New Case') }}</a></li>
+        <li><a href="{{ url_for('case.new_component') }}" data-target="#new_component" data-toggle="tabajax">{{ _('New Component') }}</a></li>
+    </ul>
+    <div id="case_tab_content" class="tab-content">
+        <div class="tab-pane fade" id="his_case">
+        </div>
+        <div class="tab-pane fade" id="new_case">
+        </div>
+        <div class="tab-pane fade" id="new_component">
+        </div>
+    </div>
+    <!-- 
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('case.his_case') }}">{{ _('His Case') }}</a></li>
+        <li><a href="{{ url_for('case.new_case') }}">{{ _('New Case') }}</a></li>
+        <li><a href="#">{{ _('New Component') }}</a></li>
+    </ul>
+     -->
+    {% block tab_app_content %}{% endblock %}
+    <!-- Case Details Modal -->
+    <div class="modal fade bd-example-modal-lg" id="case_details_modal" tabindex="-1" role="dialog" aria-labelledby="case_details_modal_title" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="case_details_modal_title">{{ _('Case Details: ') }}</h4>
+                </div>
+                <div class="modal-body" style="height:500px; overflow:auto;">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 66%">{{ _('Loading ...') }}</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <a href="#" class="badge badge-secondary" data-dismiss="modal">{{ _('Close') }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Case Modal -->
+    <div class="modal fade bd-example-modal-lg" id="update_case_modal" tabindex="-1" role="dialog" aria-labelledby="update_case_modal_title" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form action='{{ url_for("case.update_case") }}' method="post" id="update-case-form">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="update_case_modal_title">{{ _('Update Case: ') }}</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group row">
+                        <label for="case-id" class="col-sm-2 col-form-label">{{ _('Case_ID:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control-plaintext" name="case-id" id="case-id" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="validate" class="col-sm-2 col-form-label">{{ _('Validate:') }}</label>
+                        <div class="col-sm-10">
+                          <select class="form-control form-control-sm" name="validate" id="validate">
+                            <option>1</option>
+                            <option>0</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="case-cover" class="col-sm-2 col-form-label">{{ _('Case_Cover:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="case-cover" id="case-cover">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="bug-cover" class="col-sm-2 col-form-label">{{ _('Bug_Cover:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="bug-cover" id="bug-cover">
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <div>
+                        <a href="#" class="badge badge-secondary" data-dismiss="modal">{{ _('Cancel') }}</a>
+                        <a href="#" class="badge badge-primary" id="update-case-button">{{ _('Save') }}</a>
+                      </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Case Modal -->
+    <div class="modal fade bd-example-modal-lg" id="save_case_modal" tabindex="-1" role="dialog" aria-labelledby="save_case_modal_title" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form action='{{ url_for("case.save_case") }}' method="post" id="save-case-form">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="save_case_modal_title">{{ _('Save Case: ') }}</h5>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group row">
+                        <label for="case-id" class="col-sm-2 col-form-label">{{ _('Case_ID:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control-plaintext" name="case-id" id="case-id" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="predict" class="col-sm-2 col-form-label">{{ _('Predict:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control-plaintext" name="predict" id="predict" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="validate" class="col-sm-2 col-form-label">{{ _('Validate:') }}</label>
+                        <div class="col-sm-10">
+                          <select class="form-control form-control-sm" name="validate" id="validate">
+                            <option>1</option>
+                            <option>0</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="case-date" class="col-sm-2 col-form-label">{{ _('Case_Date:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control-plaintext" name="case-date" id="case-date" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="status" class="col-sm-2 col-form-label">{{ _('Status:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control-plaintext" name="status" id="status" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="case-cover" class="col-sm-2 col-form-label">{{ _('Case_Cover:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="case-cover" id="case-cover">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="bug-cover" class="col-sm-2 col-form-label">{{ _('Bug_Cover:') }}</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" name="bug-cover" id="bug-cover">
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <div>
+                        <a href="#" class="badge badge-secondary" data-dismiss="modal">{{ _('Cancel') }}</a>
+                        <a href="#" class="badge badge-primary" id="save-case-button">{{ _('Save') }}</a>
+                      </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

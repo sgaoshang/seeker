@@ -1,0 +1,29 @@
+<tr>
+    <td>
+        <a target ="_blank" href="https://access.redhat.com/support/cases/#/case/{{ case.case_id }}">{{ case.case_id }}</a>
+    </td>
+    <td>
+        <a href="#" class="badge badge-secondary" data-toggle="modal" data-target="#case_details_modal" data-case-id="{{ case.case_id }}">{{ _('details') }}</a>
+    </td>
+    <td>
+        {{ case.predict }}
+    </td>
+    <td>
+        {{ case.validate }}
+    </td>
+    <td>
+        {{ case.case_date }}
+    </td>
+    <td>
+        status
+    </td>
+    <td>
+        <a target ="_blank" href="https://polarion.engineering.redhat.com/polarion/#/project/RedHatEnterpriseLinux7/workitem?id={{ case.case_cover }}">{{ case.case_cover }}</a>
+    </td>
+    <td>
+        <a target ="_blank" href="https://bugzilla.redhat.com/show_bug.cgi?id={{ case.bug_cover }}">{{ case.bug_cover }}</a>
+    </td>
+    <td>
+        <a href="#" class="badge badge-primary" data-toggle="modal" data-target="#update_case_modal" data-case-id="{{ case.case_id }}" data-case-cover="{{ case.case_cover }}" data-bug-cover="{{ case.bug_cover }}">{{ _('edit') }}</a>
+    </td>
+</tr>
