@@ -126,7 +126,7 @@
               var case_details = ret_data.case_details;
               //alert(case_details.match('fake').length);
               //modal.find('.modal-title').text('Case Details: '+case_id);
-              modal.find('.modal-title').text('Case Details: '+case_id+', hit '+component+': '+((case_details || '').match(component) || []).length);
+              modal.find('.modal-title').text("{{ _('Case Details: ') }}"+case_id+"{{ _(', hit ') }}"+component+': '+((case_details || '').match(component) || []).length);
               modal.find('.modal-body').html(case_details.replace(component, '<font color="red">'+component+'</font>') );
             }
           });
@@ -138,7 +138,7 @@
             var case_cover = modal_trigger.data('case-cover');
             var bug_cover = modal_trigger.data('bug-cover');
             var modal = $(this);
-            modal.find('.modal-title').text('Update Case: '+case_id);
+            modal.find('.modal-title').text("{{ _('Update Case: ') }}"+case_id);
             modal.find('.modal-body #case-id').val(case_id);
             modal.find('.modal-body #case-cover').val(case_cover);
             modal.find('.modal-body #bug-cover').val(bug_cover);
@@ -162,7 +162,7 @@
           var case_date = modal_trigger.data('case-date');
           var status = modal_trigger.data('status');
           var modal = $(this);
-          modal.find('.modal-title').text('Save Case: '+case_id);
+          modal.find('.modal-title').text("{{ _('Save Case: ') }}"+case_id);
           modal.find('.modal-body #case-id').val(case_id);
           modal.find('.modal-body #predict').val(predict);
           modal.find('.modal-body #case-date').val(case_date);

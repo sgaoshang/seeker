@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-12 17:48+0800\n"
+"POT-Creation-Date: 2018-10-12 18:38+0800\n"
 "PO-Revision-Date: 2018-10-12 17:48+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -187,6 +187,22 @@ msgstr "注销"
 msgid "Error: Could not contact server."
 msgstr "错误：无法连接到服务器"
 
+#: app/templates/base.html:129 app/templates/case/base_case.html:39
+msgid "Case Details: "
+msgstr "用例详情： "
+
+#: app/templates/base.html:129
+msgid ", hit "
+msgstr "，搜到"
+
+#: app/templates/base.html:141 app/templates/case/base_case.html:64
+msgid "Update Case: "
+msgstr "更新用例： "
+
+#: app/templates/base.html:165 app/templates/case/base_case.html:115
+msgid "Save Case: "
+msgstr "保存用例： "
+
 #: app/templates/auth/login.html:12
 msgid "New User?"
 msgstr "新的用户？"
@@ -229,10 +245,6 @@ msgstr "你好, %(username)s, 这是 %(component)s 相关的用例"
 msgid "Hi, %(username)s, please select a component!"
 msgstr "你好, %(username)s, 请选择一个组件！"
 
-#: app/templates/case/base_case.html:39
-msgid "Case Details: "
-msgstr "用例详情： "
-
 #: app/templates/case/base_case.html:43
 msgid "Loading ..."
 msgstr "加载中 ..."
@@ -240,10 +252,6 @@ msgstr "加载中 ..."
 #: app/templates/case/base_case.html:48
 msgid "Close"
 msgstr "关闭"
-
-#: app/templates/case/base_case.html:64
-msgid "Update Case: "
-msgstr "更新用例： "
 
 #: app/templates/case/base_case.html:68 app/templates/case/base_case.html:119
 msgid "Case_ID:"
@@ -270,10 +278,6 @@ msgstr "取消"
 msgid "Save"
 msgstr "保存"
 
-#: app/templates/case/base_case.html:115
-msgid "Save Case: "
-msgstr "保存用例： "
-
 #: app/templates/case/base_case.html:125
 msgid "Predict:"
 msgstr "预测："
@@ -288,7 +292,7 @@ msgstr "状态："
 
 #: app/templates/case/his_case.html:8 app/templates/case/new_case.html:8
 msgid "Details"
-msgstr "详情："
+msgstr "详情"
 
 #: app/templates/case/his_case.html:9 app/templates/case/new_case.html:9
 msgid "Predict"
@@ -436,4 +440,31 @@ msgstr "你不能对自己取消关注！"
 #, python-format
 msgid "You are not following %(username)s."
 msgstr "你已取消关注 %(username)s"
+
+#~ msgid "Welcome to Seeker"
+#~ msgstr "欢迎访问Seeker"
+
+#~ msgid "Home"
+#~ msgstr "主页"
+
+#~ msgid "Component"
+#~ msgstr "组件"
+
+#~ msgid "Message"
+#~ msgstr "消息"
+
+#~ msgid "Login"
+#~ msgstr "登陆"
+
+#~ msgid "Profile"
+#~ msgstr "简介"
+
+#~ msgid "Logout"
+#~ msgstr "注销"
+
+#~ msgid "Error: Could not contact server."
+#~ msgstr "错误：无法连接到服务器"
+
+#~ msgid ", hit "
+#~ msgstr "，搜到 "
 
