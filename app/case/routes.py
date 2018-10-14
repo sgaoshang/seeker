@@ -136,6 +136,7 @@ def save_case():
     predict = request.form['predict']
     validate = request.form['validate']
     case_date = request.form['case-date']
+    status = request.form['status']
     case_cover = request.form['case-cover']
     bug_cover = request.form['bug-cover']
     error = None
@@ -144,10 +145,10 @@ def save_case():
     if validate == "":
         error = 'validate is required.'
     if error is None:
-        db.session.add(Cases(case_id=case_id, predict=predict, validate=validate, case_date=datetime.datetime.strptime(case_date, '%Y-%m-%d'), case_cover=case_cover, bug_cover=bug_cover, user_id=1, component="virt-who"))
+        db.session.add(Cases(case_id=case_id, predict=predict, validate=validate, case_date=datetime.datetime.strptime(case_date, '%Y-%m-%d'), status=status, case_cover=case_cover, bug_cover=bug_cover, user_id=1, component="virt-who"))
         db.session.commit()
         # session.modified = True
-        session['new_case_id_list'] = session['new_case_id_list'].remove(case_id)
+        session['new_case_id_list'].remove(case_id)
         return (request.path, 204)
     flash(error)
     return redirect(url_for('index'))

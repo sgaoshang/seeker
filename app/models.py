@@ -150,6 +150,7 @@ class Cases(db.Model):
     predict = db.Column(db.Integer)
     validate = db.Column(db.Integer)
     case_date = db.Column(db.Date)
+    status = db.Column(db.String(10))
     case_cover = db.Column(db.String(10))
     bug_cover = db.Column(db.String(10))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
