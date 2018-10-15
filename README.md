@@ -34,8 +34,7 @@ yum install python-pip mariadb-server postfix supervisor nginx git
 
 [mariadb]
 systemctl start mariadb
-mysqladmin password (first time, create pass)
-mysqladmin -u root -p password (second time) (gaoshang)
+mysqladmin -u root -p password (default blank) (gaoshang)
 
 $ mysql -p
 mysql> create database seeker character set utf8 collate utf8_bin;
@@ -118,7 +117,7 @@ server {
 
     location /static {
         # handle static files directly, without forwarding to the application
-        alias /root/learn-microblog/app/static;
+        alias /root/seeker/app/static;
         expires 30d;
     }
 }

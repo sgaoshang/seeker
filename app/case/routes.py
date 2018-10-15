@@ -99,7 +99,8 @@ def new_case():
     cases = []
     next_url = None
     prev_url = None
-    if current_user.last_component:
+    component = current_user.last_component
+    if component:
         new_case_id_list = session['new_case_id_list']
         total = len(new_case_id_list)
         per_page = current_app.config['CASES_PER_PAGE']
@@ -120,7 +121,7 @@ def new_case():
         cases = []
         scraper = CPCaseScraper()
         for case_id in new_case_id_list[start:start + per_page]:
-            cases.append(scraper.scrape_case_dict(case_id))
+            cases.append(scraper.scrape_case_dict(component, case_id))
         next_url = url_for('case.new_case', page=page + 1) \
             if page < pages else None
         prev_url = url_for('case.new_case', page=page - 1) \
@@ -145,7 +146,7 @@ def save_case():
     if validate == "":
         error = 'validate is required.'
     if error is None:
-        db.session.add(Cases(case_id=case_id, predict=predict, validate=validate, case_date=datetime.datetime.strptime(case_date, '%Y-%m-%d'), status=status, case_cover=case_cover, bug_cover=bug_cover, user_id=1, component="virt-who"))
+        db.session.add(Cases(case_id=case_id, predict=predict, validate=validate, case_date=datetime.datetime.strptime(case_date, '%Y-%m-%d'), status=status, case_cover=case_cover, bug_cover=bug_cover, user_id=1, component=current_user.last_component))
         db.session.commit()
         # session.modified = True
         session['new_case_id_list'].remove(case_id)
@@ -162,9 +163,3 @@ def get_search_date(component):
 def update_search_date(component, search_date):
     Component.query.filter_by(component=component).update({'search_date':search_date})
     db.session.commit()
-
-
-@bp.route('/new_component', methods=['GET', 'POST'])
-@login_required
-def new_component():
-    return render_template('case/new_component.html', title=_('New Component'))

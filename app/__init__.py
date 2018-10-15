@@ -59,6 +59,9 @@ def create_app(config_class=Config):
     from app.case import bp as case_bp
     app.register_blueprint(case_bp, url_prefix='/case')
 
+    from app.component import bp as component_bp
+    app.register_blueprint(component_bp, url_prefix='/component')
+
     if not app.debug and not app.testing:
         if app.config['MAIL_SERVER']:
             auth = None

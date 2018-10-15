@@ -71,7 +71,7 @@ class CPCaseScraper(object):
         messages.reverse()
         return unescape(str(messages).replace("\\n", "<br>"))
 
-    def scrape_case_dict(self, case_number):
+    def scrape_case_dict(self, component, case_number):
         case_dict = {}
         messages = []
         case_url = 'https://access.redhat.com/rs/cases/%s' % case_number
@@ -93,5 +93,5 @@ class CPCaseScraper(object):
         case_dict["summary"] = s.summary.text
         case_dict["status"] = s.status.text
         # case_dict["predict"] = 1
-        case_dict["predict"] = classifier.classify(messages_string)
+        case_dict["predict"] = classifier.classify(component, messages_string)
         return case_dict

@@ -12,21 +12,17 @@
     <ul id="case_tab" class="nav nav-tabs">
         <li><a href="{{ url_for('case.his_case') }}" data-target="#his_case" data-toggle="tabajax">{{ _('His Case') }}</a></li>
         <li><a href="{{ url_for('case.new_case') }}" data-target="#new_case" data-toggle="tabajax">{{ _('New Case') }}</a></li>
-        <li><a href="{{ url_for('case.new_component') }}" data-target="#new_component" data-toggle="tabajax">{{ _('New Component') }}</a></li>
     </ul>
     <div id="case_tab_content" class="tab-content">
         <div class="tab-pane fade" id="his_case">
         </div>
         <div class="tab-pane fade" id="new_case">
         </div>
-        <div class="tab-pane fade" id="new_component">
-        </div>
     </div>
     <!-- 
     <ul class="breadcrumb">
         <li><a href="{{ url_for('case.his_case') }}">{{ _('His Case') }}</a></li>
         <li><a href="{{ url_for('case.new_case') }}">{{ _('New Case') }}</a></li>
-        <li><a href="#">{{ _('New Component') }}</a></li>
     </ul>
      -->
     {% block tab_app_content %}{% endblock %}

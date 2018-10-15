@@ -82,10 +82,10 @@ def train(train_words, train_label):
     return p_words_spamicity, p_words_hamicity, p_s
 
 
-def get_trained_model(component='virt-who'):
-    vocab_list = get_vocabulary_list(current_app.config['NB_MODEL_PATH'] + component + '/vocab_list.txt')
-    p_words_spamicity = np.loadtxt(current_app.config['NB_MODEL_PATH'] + component + '/p_words_spamicity.txt', delimiter='\t')
-    p_words_hamicity = np.loadtxt(current_app.config['NB_MODEL_PATH'] + component + '/p_words_hamicity.txt', delimiter='\t')
+def get_trained_model(model_path):
+    vocab_list = get_vocabulary_list(model_path + '/vocab_list.txt')
+    p_words_spamicity = np.loadtxt(model_path + '/p_words_spamicity.txt', delimiter='\t')
+    p_words_hamicity = np.loadtxt(model_path + '/p_words_hamicity.txt', delimiter='\t')
     # with open('./trained_model/' + component + '/p_s.txt', 'r') as f:
     #    p_s = float(f.readline().strip())
     # return vocab_list, p_words_spamicity, p_words_hamicity, p_s

@@ -32,6 +32,7 @@ def login():
 @bp.route('/logout')
 def logout():
     logout_user()
+    session.clear()
     return redirect(url_for('index'))
 
 
