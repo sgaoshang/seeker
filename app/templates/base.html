@@ -154,7 +154,8 @@
           //hiscase_table.ajax.reload();
           //window.location.reload();
           //document.location.reload(true);
-          //location.reload();
+          //modal_trigger.closest("tr").reload();
+          location.reload();
         });
 
         $('#save_case_modal').on('show.bs.modal', function (event) {
@@ -175,6 +176,7 @@
           //e.preventDefault();
           $('#save-case-form').submit();
           $('#save_case_modal').modal('hide');
+          modal_trigger.closest("tr").remove();
           //refresh datatables
           //location.reload();
           //document.location.reload(true);

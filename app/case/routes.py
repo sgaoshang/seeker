@@ -148,7 +148,8 @@ def save_case():
         db.session.commit()
         # session.modified = True
         session['new_case_id_list'].remove(case_id)
-        return (request.path, 204)
+        return ("", 204)
+        # return (request.path, 204)
     flash(error)
     return redirect(url_for('index'))
 
