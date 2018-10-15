@@ -20,7 +20,7 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['sgao@redhat.com']
 
-    LANGUAGES = ['en', 'es', 'zh']
+    LANGUAGES = ['en', 'zh']
 
     BAIDU_APP_ID = os.environ.get('BAIDU_APP_ID')
     BAIDU_TRANSLATOR_KEY = os.environ.get('BAIDU_TRANSLATOR_KEY')

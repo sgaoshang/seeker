@@ -167,7 +167,9 @@ def get_locale():
         language = None
     if language is not None:
         return language
-    return request.accept_languages.best_match(current_app.config['LANGUAGES'])
+    lan = request.accept_languages.best_match(current_app.config['LANGUAGES'])
+    session['language'] = lan
+    return lan
 
 # def get_component():
 #     try:
