@@ -16,6 +16,7 @@ from app.case import bp
 def before_app_request():
     if current_user.is_authenticated and current_user.last_component:
         try:
+            current_app.logger.info(session['new_case_id_list'])
             new_case_id_list = session['new_case_id_list']
         except KeyError:
             new_case_id_list = None

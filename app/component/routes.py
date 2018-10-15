@@ -13,11 +13,19 @@ from app.component import bp
 def new_component():
     form = NewComponentForm()
     if form.validate_on_submit():
-        component = Component(component=form.component.data, search_date=form.search_date.data)
-        db.session.add(component)
-        db.session.commit()
-        session['components'].append(form.component.data)
-        flash(_('Congratulations, new component has been added!'))
-        return redirect(url_for('index'))
+        component = form.component.data
+        if Component.query.filter_by(component=component).first():
+            flash(_('Component %(component)s already exist...', component=component))
+        else:
+            db_component = Component(component=component, search_date=form.search_date.data)
+            db.session.add(db_component)
+            current_user.last_component = component
+            db.session.commit()
+            session['component'] = component
+            session['components'].append(component)
+            if session.get('new_case_id_list'):
+                session.pop('new_case_id_list')
+            flash(_('Congratulations, new component has been added!'))
+            return redirect(url_for('index'))
     return render_template('component/new_component.html', title=_('New Component'),
                            form=form)

@@ -66,7 +66,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
-    last_component = db.Column(db.String(10), default='virt-who')
+    last_component = db.Column(db.String(10))
     # last_component = db.Column(db.String(10))
 
     about_me = db.Column(db.String(140))
