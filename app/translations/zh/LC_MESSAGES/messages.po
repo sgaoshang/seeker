@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-10-12 18:38+0800\n"
+"POT-Creation-Date: 2018-10-15 17:44+0800\n"
 "PO-Revision-Date: 2018-10-12 17:48+0800\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -50,7 +50,7 @@ msgstr "邮箱"
 msgid "Repeat Password"
 msgstr "重复密码"
 
-#: app/auth/forms.py:23 app/auth/routes.py:51
+#: app/auth/forms.py:23 app/auth/routes.py:52
 #: app/templates/auth/register.html:5
 msgid "Register"
 msgstr "注册"
@@ -75,19 +75,19 @@ msgstr "请用另一个邮箱"
 msgid "Invalid username or password"
 msgstr "非法的用户名或密码"
 
-#: app/auth/routes.py:49
+#: app/auth/routes.py:50
 msgid "Congratulations, you are now a registered user!"
 msgstr "恭喜你，现在你已成为注册用户！"
 
-#: app/auth/routes.py:65
+#: app/auth/routes.py:66
 msgid "Check your email for the instructions to reset your password"
 msgstr "请检查邮件，根据提示重置密码"
 
-#: app/auth/routes.py:68 app/templates/auth/reset_password_request.html:5
+#: app/auth/routes.py:69 app/templates/auth/reset_password_request.html:5
 msgid "Reset Password"
 msgstr "重置密码"
 
-#: app/auth/routes.py:82
+#: app/auth/routes.py:83
 msgid "Your password has been reset."
 msgstr "你的密码已重置"
 
@@ -116,18 +116,38 @@ msgstr "用例覆盖"
 msgid "Bug_Cover"
 msgstr "Bug覆盖"
 
-#: app/case/routes.py:55 app/templates/case/base_case.html:13
-#: app/templates/case/base_case.html:27
+#: app/case/routes.py:56 app/templates/case/base_case.html:13
+#: app/templates/case/base_case.html:24
 msgid "His Case"
 msgstr "旧的用例"
 
-#: app/case/routes.py:128 app/templates/case/base_case.html:14
-#: app/templates/case/base_case.html:28
+#: app/case/routes.py:127 app/templates/case/base_case.html:14
+#: app/templates/case/base_case.html:25
 msgid "New Case"
 msgstr "新的用例"
 
-#: app/case/routes.py:169 app/templates/base.html:34
-#: app/templates/case/base_case.html:15 app/templates/case/base_case.html:29
+#: app/component/forms.py:8 app/templates/base.html:24
+msgid "Component"
+msgstr "组件"
+
+#: app/component/forms.py:9
+msgid "Search Date"
+msgstr "查找日期"
+
+#: app/component/forms.py:10
+msgid "ADD"
+msgstr "填加"
+
+#: app/component/routes.py:18
+#, python-format
+msgid "Component %(component)s already exist..."
+msgstr "组件 %(component)s 已存在..."
+
+#: app/component/routes.py:28
+msgid "Congratulations, new component has been added!"
+msgstr "恭喜，新组件填加成功！"
+
+#: app/component/routes.py:30 app/templates/base.html:36
 msgid "New Component"
 msgstr "新的组件"
 
@@ -163,43 +183,39 @@ msgstr "欢迎访问Seeker"
 msgid "Home"
 msgstr "主页"
 
-#: app/templates/base.html:24
-msgid "Component"
-msgstr "组件"
-
-#: app/templates/base.html:39
+#: app/templates/base.html:41
 msgid "Message"
 msgstr "消息"
 
-#: app/templates/base.html:53
+#: app/templates/base.html:55
 msgid "Login"
 msgstr "登陆"
 
-#: app/templates/base.html:55
+#: app/templates/base.html:57
 msgid "Profile"
 msgstr "简介"
 
-#: app/templates/base.html:56
+#: app/templates/base.html:58
 msgid "Logout"
 msgstr "注销"
 
-#: app/templates/base.html:105
+#: app/templates/base.html:107
 msgid "Error: Could not contact server."
 msgstr "错误：无法连接到服务器"
 
-#: app/templates/base.html:129 app/templates/case/base_case.html:39
+#: app/templates/base.html:131 app/templates/case/base_case.html:35
 msgid "Case Details: "
 msgstr "用例详情： "
 
-#: app/templates/base.html:129
+#: app/templates/base.html:131
 msgid ", hit "
-msgstr "，搜到"
+msgstr "，匹配"
 
-#: app/templates/base.html:141 app/templates/case/base_case.html:64
+#: app/templates/base.html:143 app/templates/case/base_case.html:60
 msgid "Update Case: "
 msgstr "更新用例： "
 
-#: app/templates/base.html:165 app/templates/case/base_case.html:115
+#: app/templates/base.html:168 app/templates/case/base_case.html:111
 msgid "Save Case: "
 msgstr "保存用例： "
 
@@ -237,56 +253,56 @@ msgstr "保存"
 
 #: app/templates/case/base_case.html:6
 #, python-format
-msgid "Hi, %(username)s, here are %(component)s related cases!"
-msgstr "你好, %(username)s, 这是 %(component)s 相关的用例"
+msgid "Hi %(username)s, here are %(component)s related cases!"
+msgstr "你好 %(username)s，这是 %(component)s 相关的用例！"
 
 #: app/templates/case/base_case.html:8
 #, python-format
-msgid "Hi, %(username)s, please select a component!"
-msgstr "你好, %(username)s, 请选择一个组件！"
+msgid "Hi %(username)s, please select a component!"
+msgstr "你好 %(username)s，请选择一个组件！"
 
-#: app/templates/case/base_case.html:43
+#: app/templates/case/base_case.html:39
 msgid "Loading ..."
 msgstr "加载中 ..."
 
-#: app/templates/case/base_case.html:48
+#: app/templates/case/base_case.html:44
 msgid "Close"
 msgstr "关闭"
 
-#: app/templates/case/base_case.html:68 app/templates/case/base_case.html:119
+#: app/templates/case/base_case.html:64 app/templates/case/base_case.html:115
 msgid "Case_ID:"
 msgstr "用例ID："
 
-#: app/templates/case/base_case.html:74 app/templates/case/base_case.html:131
+#: app/templates/case/base_case.html:70 app/templates/case/base_case.html:127
 msgid "Validate:"
 msgstr "验证："
 
-#: app/templates/case/base_case.html:83 app/templates/case/base_case.html:152
+#: app/templates/case/base_case.html:79 app/templates/case/base_case.html:148
 msgid "Case_Cover:"
 msgstr "用例覆盖："
 
-#: app/templates/case/base_case.html:89 app/templates/case/base_case.html:158
+#: app/templates/case/base_case.html:85 app/templates/case/base_case.html:154
 msgid "Bug_Cover:"
 msgstr "Bug覆盖："
 
-#: app/templates/case/base_case.html:97 app/templates/case/base_case.html:166
+#: app/templates/case/base_case.html:93 app/templates/case/base_case.html:162
 msgid "Cancel"
 msgstr "取消"
 
-#: app/templates/case/base_case.html:98 app/templates/case/base_case.html:167
+#: app/templates/case/base_case.html:94 app/templates/case/base_case.html:163
 #: app/templates/case/new_case.html:15
 msgid "Save"
 msgstr "保存"
 
-#: app/templates/case/base_case.html:125
+#: app/templates/case/base_case.html:121
 msgid "Predict:"
 msgstr "预测："
 
-#: app/templates/case/base_case.html:140
+#: app/templates/case/base_case.html:136
 msgid "Case_Date:"
 msgstr "用例日期："
 
-#: app/templates/case/base_case.html:146
+#: app/templates/case/base_case.html:142
 msgid "Status:"
 msgstr "状态："
 
@@ -333,6 +349,10 @@ msgstr "上个结果"
 #: app/templates/case/search.html:17 app/templates/message/search.html:17
 msgid "Next results"
 msgstr "下个结果"
+
+#: app/templates/component/new_component.html:5
+msgid "Add New Component"
+msgstr "填加新组件"
 
 #: app/templates/errors/404.html:4
 msgid "Not Found"
@@ -440,31 +460,4 @@ msgstr "你不能对自己取消关注！"
 #, python-format
 msgid "You are not following %(username)s."
 msgstr "你已取消关注 %(username)s"
-
-#~ msgid "Welcome to Seeker"
-#~ msgstr "欢迎访问Seeker"
-
-#~ msgid "Home"
-#~ msgstr "主页"
-
-#~ msgid "Component"
-#~ msgstr "组件"
-
-#~ msgid "Message"
-#~ msgstr "消息"
-
-#~ msgid "Login"
-#~ msgstr "登陆"
-
-#~ msgid "Profile"
-#~ msgstr "简介"
-
-#~ msgid "Logout"
-#~ msgstr "注销"
-
-#~ msgid "Error: Could not contact server."
-#~ msgstr "错误：无法连接到服务器"
-
-#~ msgid ", hit "
-#~ msgstr "，搜到 "
 
