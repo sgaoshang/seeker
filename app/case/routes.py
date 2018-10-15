@@ -16,13 +16,13 @@ from app.case import bp
 def before_app_request():
     if current_user.is_authenticated and current_user.last_component:
         try:
-            current_app.logger.info(session['new_case_id_list'])
             new_case_id_list = session['new_case_id_list']
         except KeyError:
             new_case_id_list = None
         if new_case_id_list is None:
             if current_user.is_authenticated:
                 session['new_case_id_list'] = get_case_id_list(current_user.last_component)
+                current_app.logger.info("Re-fetch session[new_case_id_list]: %s" % session['new_case_id_list'])
 
 
 def get_case_id_list(component):
@@ -106,10 +106,7 @@ def new_case():
         total = len(new_case_id_list)
         per_page = current_app.config['CASES_PER_PAGE']
         pages = int(ceil(total / float(per_page)))
-    
-        current_app.logger.debug(new_case_id_list)
-    
-        start = page * per_page
+        start = (page - 1) * per_page
         if total <= per_page:
             # display only one page
             per_page = total

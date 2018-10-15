@@ -3,9 +3,9 @@
 {% block app_content %}
     {% if not current_user.is_anonymous %}
         {% if current_user.last_component %}
-            <h3>{{ _('Hi, %(username)s, here are %(component)s related cases!', username=current_user.username, component=current_user.last_component) }}</h3>
+            <h3>{{ _('Hi %(username)s, here are %(component)s related cases!', username=current_user.username, component=current_user.last_component) }}</h3>
         {% else %}
-            <h3>{{ _('Hi, %(username)s, please select a component!', username=current_user.username) }}</h3>
+            <h3>{{ _('Hi %(username)s, please select a component!', username=current_user.username) }}</h3>
         {% endif %}
     {% endif %}
 

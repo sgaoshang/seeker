@@ -131,7 +131,8 @@ def create_app(config_class=Config):
         session['component'] = component
         current_user.last_component = component
         db.session.commit()
-        if session['new_case_id_list']:
+        if session.get('new_case_id_list'):
+            current_app.logger.info("pop session['new_case_id_list'] due to set component")
             session.pop('new_case_id_list')
         return redirect(url_for('index'))
 
