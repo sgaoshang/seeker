@@ -136,3 +136,8 @@ $ ip -6 addr show
 vi /etc/default/grub
 edit GRUB_CMDLINE_LINUX="ipv6.disable=1"
 grub2-mkconfig -o /boot/grub2/grub.cfg
+
+*** server issue:
+* upstream prematurely closed connection while reading response header from upstream
+vi /etc/nginx/nginx.conf
+  keepalive_timeout   600;

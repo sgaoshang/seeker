@@ -8,7 +8,7 @@ from app.case.scraper.cp_case_scraper import CPCaseScraper
 from app.case.forms import UpdateCaseForm, CaseSearchForm
 
 from math import ceil
-import datetime
+from datetime import datetime
 from app.case import bp
 
 
@@ -33,8 +33,8 @@ def get_case_id_list(component):
 #     for i in range(5):
 #         if not case_id_list:
     case_id_list, update_date = scraper.scrape_cases_id_via_date(component, search_date)
-    if update_date != "" and datetime.datetime.strptime(update_date, '%Y-%m-%d') > datetime.datetime.strptime(search_date, '%Y-%m-%d'):
-        update_search_date(component, datetime.datetime.strptime(update_date, '%Y-%m-%d'))
+    if update_date != "" and datetime.strptime(update_date, '%Y-%m-%d') > datetime.strptime(search_date, '%Y-%m-%d'):
+        update_search_date(component, datetime.strptime(update_date, '%Y-%m-%d'))
 #         if case_id_list:
 #             current_app.logger.info("case_id_list %s" % case_id_list)
 #             return case_id_list
@@ -144,7 +144,7 @@ def save_case():
     if validate == "":
         error = 'validate is required.'
     if error is None:
-        db.session.add(Cases(case_id=case_id, predict=predict, validate=validate, case_date=datetime.datetime.strptime(case_date, '%Y-%m-%d'), status=status, case_cover=case_cover, bug_cover=bug_cover, user_id=1, component=current_user.last_component))
+        db.session.add(Cases(case_id=case_id, predict=predict, validate=validate, case_date=datetime.strptime(case_date, '%Y-%m-%d'), status=status, case_cover=case_cover, bug_cover=bug_cover, user_id=1, component=current_user.last_component))
         db.session.commit()
         # session.modified = True
         session['new_case_id_list'].remove(case_id)
