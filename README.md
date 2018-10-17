@@ -137,7 +137,14 @@ vi /etc/default/grub
 edit GRUB_CMDLINE_LINUX="ipv6.disable=1"
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
-*** server issue:
+*** server issue: ***
 * upstream prematurely closed connection while reading response header from upstream
 vi /etc/nginx/nginx.conf
   keepalive_timeout   600;
+
+*** mail server for outlook ***
+MAIL_SERVER=smtp.office365.com
+MAIL_PORT=587
+MAIL_USE_TLS=1
+MAIL_USERNAME=seeker.sgao@outlook.com
+MAIL_PASSWORD=***
