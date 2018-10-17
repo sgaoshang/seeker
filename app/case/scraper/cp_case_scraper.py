@@ -47,7 +47,7 @@ class CPCaseScraper(object):
                 current_app.logger.info("created_date: %s" % created_date)  # eg. 10-05
                 if datetime.strptime(created_date, '%Y-%m-%d') >= datetime.strptime(search_date, '%Y-%m-%d'):  # eg. 10-05 == 10-05
                     case_id = case.attrs["casenumber"]
-                    if Cases.query.filter_by(case_id=case_id).first() is None:
+                    if Cases.query.filter_by(case_id=case_id, component=component).first() is None:
                         if search_min_date == "" or datetime.strptime(search_min_date, '%Y-%m-%d') >= datetime.strptime(created_date, '%Y-%m-%d'):  # eg. 10-06 >= 10-05
                             search_min_date = created_date  # eg. 10-05
                             cases_id_list.append(case_id)

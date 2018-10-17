@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 07081dcedb84
+Revision ID: 5fa755417104
 Revises: 
-Create Date: 2018-10-14 15:16:04.610703
+Create Date: 2018-10-17 12:43:06.797577
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '07081dcedb84'
+revision = '5fa755417104'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,7 +38,8 @@ def upgrade():
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     op.create_index(op.f('ix_user_username'), 'user', ['username'], unique=True)
     op.create_table('cases',
-    sa.Column('case_id', sa.String(length=10), nullable=False),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('case_id', sa.String(length=10), nullable=True),
     sa.Column('predict', sa.Integer(), nullable=True),
     sa.Column('validate', sa.Integer(), nullable=True),
     sa.Column('case_date', sa.Date(), nullable=True),
@@ -48,7 +49,7 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('component', sa.String(length=10), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('case_id')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('followers',
     sa.Column('follower_id', sa.Integer(), nullable=True),

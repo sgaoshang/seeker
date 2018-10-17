@@ -146,7 +146,8 @@ class Post(SearchableMixin, db.Model):
 class Cases(db.Model):
     # __searchable__ = ['case_cover']
     # __searchable__ = ['bug_cover']
-    case_id = db.Column(db.String(10), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    case_id = db.Column(db.String(10))  # maybe belong to diff component, so add other primary_key
     predict = db.Column(db.Integer)
     validate = db.Column(db.Integer)
     case_date = db.Column(db.Date)
