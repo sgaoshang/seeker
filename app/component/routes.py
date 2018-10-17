@@ -23,7 +23,8 @@ def new_component():
             db.session.commit()
             session['component'] = component
             session['components'].append(component)
-            if session.get('new_case_id_list'):
+            # if session.get('new_case_id_list'):
+            if 'new_case_id_list' in session:
                 session.pop('new_case_id_list')
             flash(_('Congratulations, new component has been added!'))
             return redirect(url_for('index'))

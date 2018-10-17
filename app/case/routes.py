@@ -115,8 +115,6 @@ def new_case():
             if end >= total:
                 # display last page
                 per_page = total - start
-    
-        cases = []
         scraper = CPCaseScraper()
         for case_id in new_case_id_list[start:start + per_page]:
             cases.append(scraper.scrape_case_dict(component, case_id))
