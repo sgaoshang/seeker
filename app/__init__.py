@@ -56,8 +56,11 @@ def create_app(config_class=Config):
     from app.message import bp as message_bp
     app.register_blueprint(message_bp, url_prefix='/message')
 
-    from app.case import bp as case_bp
-    app.register_blueprint(case_bp, url_prefix='/case')
+    from app.case_his import bp as case_his_bp
+    app.register_blueprint(case_his_bp, url_prefix='/case_his')
+
+    from app.case_new import bp as case_new_bp
+    app.register_blueprint(case_new_bp, url_prefix='/case_new')
 
     from app.component import bp as component_bp
     app.register_blueprint(component_bp, url_prefix='/component')
@@ -97,14 +100,14 @@ def create_app(config_class=Config):
 
     @app.before_first_request
     def before_first_request():
-        app.logger.info("run: before_first_request")
+        app.logger.info("run: app.before_first_request")
         app.permanent_session_lifetime = timedelta(minutes=30)
         # if current_user.is_authenticated:
         #    session['components'] = get_components()
 
     @app.before_request
     def before_request():
-        app.logger.info("run: before_request")
+        app.logger.info("run: app.before_request")
         # session.permanent = True
         # app.permanent_session_lifetime = timedelta(minutes=1)
         if current_user.is_authenticated:
@@ -140,19 +143,7 @@ def create_app(config_class=Config):
     @app.route('/index', methods=['GET', 'POST'])
     @login_required
     def index():
-#         page = request.args.get('page', 1, type=int)
-#         cases = Cases.query.order_by(Cases.case_date.desc()).paginate(
-#             page, current_app.config['CASES_PER_PAGE'], False)
-#         next_url = url_for('index', page=cases.next_num) \
-#             if cases.has_next else None
-#         prev_url = url_for('index', page=cases.prev_num) \
-#             if cases.has_prev else None
-#         return render_template('index.html', title=_('His Case'),
-#                                cases=cases.items, next_url=next_url,
-#                                prev_url=prev_url)
-        # return render_template('index.html')
-        return redirect(url_for('case.his_case'))
-        # return render_template('case/base_case.html')
+        return redirect(url_for('case_his.case'))
 
     return app
 

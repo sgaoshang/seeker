@@ -119,7 +119,7 @@
           //alert(JSON.stringify(data));
           $.ajax({
             type:'POST',
-            url:'{{ url_for("case.show_case_details") }}',
+            url:'{{ url_for("case_his.show_case_details") }}', //both for case_his and case_new
             data:JSON.stringify(data),
             contentType:'application/json',
             dataType:'json',

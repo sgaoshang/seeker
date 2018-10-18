@@ -1,4 +1,4 @@
-{% extends "case/base_case.html" %}
+{% extends "case_base.html" %}
 
 {% block tab_app_content %}
     <table class="table table-hover">
@@ -12,12 +12,12 @@
             <th>{{ _('Status') }}</th>
             <th>{{ _('Case_Cover') }}</th>
             <th>{{ _('Bug_Cover') }}</th>
-            <th>{{ _('Edit') }}</th>
+            <th>{{ _('Save') }}</th>
           </tr>
         </thead>
         {% if cases %}
             {% for case in cases %}
-                {% include 'case/_his_case.html' %}
+                {% include 'case_new/_case.html' %}
             {% endfor %}
         {% else %}
             <tr>

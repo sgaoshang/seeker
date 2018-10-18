@@ -33,4 +33,4 @@ class Config(object):
     CP_USER = os.environ.get('CP_USER')
     CP_PASS = os.environ.get('CP_PASS')
 
-    NB_MODEL_PATH = os.path.join(basedir, 'app/case/naivebayes/trained_model/')
+    NB_MODEL_PATH = os.path.join(basedir, 'app/case_new/naivebayes/trained_model/')

@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from xml.sax.saxutils import unescape
 
 from flask import current_app
-from app.case.naivebayes import classifier
+from app.case_new.naivebayes import classifier
 from app.models import Cases
 
 

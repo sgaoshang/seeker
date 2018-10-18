@@ -10,19 +10,19 @@
     {% endif %}
 
     <ul id="case_tab" class="nav nav-tabs">
-        <li><a href="{{ url_for('case.his_case') }}" data-target="#his_case" data-toggle="tabajax">{{ _('His Case') }}</a></li>
-        <li><a href="{{ url_for('case.new_case') }}" data-target="#new_case" data-toggle="tabajax">{{ _('New Case') }}</a></li>
+        <li><a href="{{ url_for('case_his.case') }}" data-target="#case_his" data-toggle="tabajax">{{ _('His Case') }}</a></li>
+        <li><a href="{{ url_for('case_new.case') }}" data-target="#case_new" data-toggle="tabajax">{{ _('New Case') }}</a></li>
     </ul>
     <div id="case_tab_content" class="tab-content">
-        <div class="tab-pane fade" id="his_case">
+        <div class="tab-pane fade" id="case_his">
         </div>
-        <div class="tab-pane fade" id="new_case">
+        <div class="tab-pane fade" id="case_new">
         </div>
     </div>
     <!-- 
     <ul class="breadcrumb">
-        <li><a href="{{ url_for('case.his_case') }}">{{ _('His Case') }}</a></li>
-        <li><a href="{{ url_for('case.new_case') }}">{{ _('New Case') }}</a></li>
+        <li><a href="{{ url_for('case_his.case') }}">{{ _('His Case') }}</a></li>
+        <li><a href="{{ url_for('case_new.case') }}">{{ _('New Case') }}</a></li>
     </ul>
      -->
     {% block tab_app_content %}{% endblock %}
@@ -52,7 +52,7 @@
     <div class="modal fade bd-example-modal-lg" id="update_case_modal" tabindex="-1" role="dialog" aria-labelledby="update_case_modal_title" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form action='{{ url_for("case.update_case") }}' method="post" id="update-case-form">
+                <form action='{{ url_for("case_his.update_case") }}' method="post" id="update-case-form">
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
@@ -103,7 +103,7 @@
     <div class="modal fade bd-example-modal-lg" id="save_case_modal" tabindex="-1" role="dialog" aria-labelledby="save_case_modal_title" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form action='{{ url_for("case.save_case") }}' method="post" id="save-case-form">
+                <form action='{{ url_for("case_new.save_case") }}' method="post" id="save-case-form">
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
