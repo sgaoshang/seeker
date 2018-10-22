@@ -10,8 +10,9 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_babel import Babel, lazy_gettext as _l
 from elasticsearch import Elasticsearch
-
 from flask_babel import _, get_locale
+
+from celery import Celery
 
 from config import Config
 
@@ -24,6 +25,8 @@ mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
 babel = Babel()
+
+celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
 
 
 def create_app(config_class=Config):
@@ -40,6 +43,8 @@ def create_app(config_class=Config):
     babel.init_app(app)
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
+
+    celery.conf.update(app.config)
 
 #     from app.main import bp as main_bp
 #     app.register_blueprint(main_bp)

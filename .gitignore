@@ -1,3 +1,6 @@
+#ignore redis
+redis-stable
+
 #ignore translations
 *.mo
 

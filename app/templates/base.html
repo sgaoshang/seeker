@@ -82,6 +82,7 @@
     {{ super() }}
     {{ moment.include_moment() }}
     {{ moment.lang(CURRENT_LANGUAGE) }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
     <script>
         //$('[data-toggle="tabajax"]').click(function(e) {
         //$('#case_tab a').on('click', function (e) {
@@ -181,6 +182,52 @@
           //location.reload();
           //document.location.reload(true);
         });
+
+        $(function() {
+            $('#case_new').click(start_long_task);
+        });
+
+        function start_long_task() {
+            div = $('<div class="progress"><div></div><div>0%</div></div><hr>');
+            $('#newcase-progress').append(div);
+            // create a progress bar
+            var nanobar = new Nanobar({
+                bg: '#44f',
+                target: div[0].childNodes[0]
+            });
+            // send ajax POST request to start background job
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("case_new.case") }}',
+                success: function(data, status, request) {
+                    status_url = request.getResponseHeader('Location');
+                    update_progress(status_url, nanobar, div[0]);
+                },
+                error: function() {
+                    alert('Unexpected error');
+                }
+            });
+        };
+
+        function update_progress(status_url, nanobar, status_div) {
+            // send GET request to status URL
+            $.getJSON(status_url, function(data) {
+                // update UI
+                percent = parseInt(data['current'] * 100 / data['total']);
+                nanobar.go(percent);
+                $(status_div.childNodes[1]).text(percent + '%  ' + data['status']);
+                if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
+                    //$('#newcase-progress').fadeOut('slow');
+                    location.href='{{ url_for("case_new.case") }}';
+                }
+                else {
+                    // rerun in 1 seconds
+                    setTimeout(function() {
+                        update_progress(status_url, nanobar, status_div);
+                    }, 1000);
+                }
+            });
+        };
 
     </script>
 {% endblock %}

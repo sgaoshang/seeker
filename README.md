@@ -148,3 +148,6 @@ MAIL_PORT=587
 MAIL_USE_TLS=1
 MAIL_USERNAME=seeker.sgao@outlook.com
 MAIL_PASSWORD=***
+
+*** celery ***
+# pip install celery redis
