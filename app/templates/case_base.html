@@ -11,7 +11,7 @@
 
     <ul id="case_tab" class="nav nav-tabs">
         <li><a href="{{ url_for('case_his.case') }}" data-target="#case_his" data-toggle="tabajax">{{ _('His Case') }}</a></li>
-        <li><a href="#" data-target="#case_new" data-toggle="tabajax" id="case_new">{{ _('New Case') }}</a></li>
+        <li><a href="#" data_url="{{ url_for('case_new.case') }}" data-target="#case_new" data-toggle="tabajax" id="case_new">{{ _('New Case') }}</a></li>
     </ul>
     <div id="case_tab_content" class="tab-content">
         <div class="tab-pane fade" id="case_his">
@@ -45,7 +45,7 @@
                 </div>
                 <div class="modal-body" style="height:500px; overflow:auto;">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 66%">{{ _('Loading ...') }}</div>
+                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 66%">{{ _('Loading ...') }}</div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -176,5 +176,139 @@
             </div>
         </div>
     </div>
+
+{% endblock %}
+{% block app_scripts %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
+    <script>
+        $('#case_details_modal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget); // Button that triggered the modal
+          var case_id = button.data('case-id'); // Extract info from data-* attributes
+          var component = "{{ current_user.last_component }}";
+          var modal = $(this);
+          var data={
+            'case_id':case_id,
+          };
+          //alert(JSON.stringify(data));
+          $.ajax({
+            type:'POST',
+            url:'{{ url_for("case_his.show_case_details") }}', //both for case_his and case_new
+            data:JSON.stringify(data),
+            contentType:'application/json',
+            dataType:'json',
+            success:function(ret_data){
+              //var case_details = JSON.stringify(ret_data);
+              var case_details = ret_data.case_details;
+              //alert(case_details.match('fake').length);
+              //modal.find('.modal-title').text('Case Details: '+case_id);
+              modal.find('.modal-title').text("{{ _('Case Details: ') }}"+case_id+"{{ _(', hit ') }}"+component+': '+((case_details || '').match(component) || []).length);
+              modal.find('.modal-body').html(case_details.replace(component, '<font color="red">'+component+'</font>') );
+            }
+          });
+        })
+
+        $('#update_case_modal').on('show.bs.modal', function (event) {
+            var modal_trigger = $(event.relatedTarget); // Button that triggered the modal
+            var case_id = modal_trigger.data('case-id'); // Extract info from data-* attributes
+            var case_cover = modal_trigger.data('case-cover');
+            var bug_cover = modal_trigger.data('bug-cover');
+            var modal = $(this);
+            modal.find('.modal-title').text("{{ _('Update Case: ') }}"+case_id);
+            modal.find('.modal-body #case-id').val(case_id);
+            modal.find('.modal-body #case-cover').val(case_cover);
+            modal.find('.modal-body #bug-cover').val(bug_cover);
+          });
+
+        $('#update-case-button').click(function(e){
+          //e.preventDefault();
+          $('#update-case-form').submit();
+          $('#update_case_modal').modal('hide');
+          //refresh datatables
+          //hiscase_table.ajax.reload();
+          //window.location.reload();
+          //document.location.reload(true);
+          //modal_trigger.closest("tr").reload();
+          location.reload();
+        });
+
+        $('#save_case_modal').on('show.bs.modal', function (event) {
+          modal_trigger = $(event.relatedTarget); // Button that triggered the modal
+          var case_id = modal_trigger.data('case-id'); // Extract info from data-* attributes
+          var predict = modal_trigger.data('predict');
+          var case_date = modal_trigger.data('case-date');
+          var status = modal_trigger.data('status');
+          var modal = $(this);
+          modal.find('.modal-title').text("{{ _('Save Case: ') }}"+case_id);
+          modal.find('.modal-body #case-id').val(case_id);
+          modal.find('.modal-body #predict').val(predict);
+          modal.find('.modal-body #case-date').val(case_date);
+          modal.find('.modal-body #status').val(status);
+        });
+
+        $('#save-case-button').click(function(e){
+          //e.preventDefault();
+          $('#save-case-form').submit();
+          $('#save_case_modal').modal('hide');
+          modal_trigger.closest("tr").remove();
+          //refresh datatables
+          //location.reload();
+          //document.location.reload(true);
+        });
+
+        $(function() {
+            $('#case_new,#newcase_prev,#newcase_next').on('click', function (e) {
+                var $this = $(this);
+                var loadurl = $this.attr('data_url');
+                //console.log(loadurl);
+                if (loadurl !="#") {
+                    start_long_task(loadurl);
+                }
+            });
+        });
+
+        function start_long_task(loadurl) {
+            //div = $('<div class="progress"><div></div><div>0%</div></div><hr>');
+            div = $('<div class="progress"><div></div></div><hr>');
+            $('#newcase-progress').append(div);
+            // create a progress bar
+            var nanobar = new Nanobar({
+                bg: '#44f',
+                target: div[0].childNodes[0]
+            });
+            // send ajax POST request to start background job
+            $.ajax({
+                type: 'POST',
+                //url: '{{ url_for("case_new.case") }}',
+                url: loadurl,
+                success: function(data, status, request) {
+                    status_url = request.getResponseHeader('Location');
+                    update_progress(status_url, nanobar, loadurl);
+                },
+                error: function() {
+                    alert('Unexpected error');
+                }
+            });
+        };
+
+        function update_progress(status_url, nanobar, loadurl) {
+            // send GET request to status URL
+            $.getJSON(status_url, function(data) {
+                // update UI
+                percent = parseInt(data['current'] * 100 / data['total']);
+                nanobar.go(percent);
+                //$(status_div.childNodes[1]).text(percent + '%  ' + data['status']);
+                if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
+                    //$('#newcase-progress').fadeOut('slow');
+                    location.href=loadurl;
+                }
+                else {
+                    // rerun in 1 seconds
+                    setTimeout(function() {
+                        update_progress(status_url, nanobar, loadurl);
+                    }, 1000);
+                }
+            });
+        };
+    </script>
 
 {% endblock %}

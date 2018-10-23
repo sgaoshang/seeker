@@ -150,4 +150,6 @@ MAIL_USERNAME=seeker.sgao@outlook.com
 MAIL_PASSWORD=***
 
 *** celery ***
-# pip install celery redis
+(venv) $ pip install celery redis
+(venv) $ run-redis.sh
+(venv) $ celery worker -A celery_worker.celery --loglevel=info

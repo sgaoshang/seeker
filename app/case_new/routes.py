@@ -72,7 +72,7 @@ def case():
         session.pop('new_case_content_list')
     else:
         task = task_get_case_content.delay(component, new_case_id_list[start:start + per_page])  # .apply_async()
-        return jsonify({}), 202, {'Location': url_for('case_new.taskstatus', task_id=task.id)}
+        return jsonify({}), 202, {'Location': url_for('case_new.status', task_id=task.id)}
     return render_template('case_new/case.html', title=_('New Case'), cases=cases, next_url=next_url, prev_url=prev_url)
 
 
@@ -82,16 +82,13 @@ def task_get_case_content(self, component, case_id_list):
     total = len(case_id_list)
     cases_content_list = []
     for index, case_id in enumerate(case_id_list):
-        self.update_state(state='PROGRESS', meta={'current': index, 'total': total, 'status': "Loading Case %s..." % case_id})
+        self.update_state(state='PROGRESS', meta={'current': index, 'total': total, 'status': "Loading Case %s ..." % case_id})
         cases_content_list.append(scraper.scrape_case_dict(component, case_id))
-    # if 'new_case_content_list' in session:
-    #    session.pop('new_case_content_list')
-    # session['cases_content_list'] = cases_content_list
     return {'current': 100, 'total': 100, 'status': 'Completed', 'result': cases_content_list}
 
 
 @bp.route('/status/<task_id>')
-def taskstatus(task_id):
+def status(task_id):
     task = task_get_case_content.AsyncResult(task_id)
     if task.state == 'PENDING':
         response = {
@@ -112,7 +109,6 @@ def taskstatus(task_id):
             if 'new_case_content_list' in session:
                 session.pop('new_case_content_list')
             session['new_case_content_list'] = cases_content_list
-            response['result'] = cases_content_list
     else:
         # something went wrong in the background job
         response = {
