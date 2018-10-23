@@ -26,13 +26,9 @@
     </ul>
      -->
 
-    <div id="newcase-progress"></div>
-    <style>
-        .progress {
-            width: 100%;
-            text-align: center;
-        }
-    </style>
+    <div class="progress hidden" id="newcase-progress">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+    </div>
 
     {% block tab_app_content %}{% endblock %}
     <!-- Case Details Modal -->
@@ -179,7 +175,6 @@
 
 {% endblock %}
 {% block app_scripts %}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/nanobar/0.2.1/nanobar.min.js"></script>
     <script>
         $('#case_details_modal').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget); // Button that triggered the modal
@@ -259,7 +254,6 @@
             $('#case_new,#newcase_prev,#newcase_next').on('click', function (e) {
                 var $this = $(this);
                 var loadurl = $this.attr('data_url');
-                //console.log(loadurl);
                 if (loadurl !="#") {
                     start_long_task(loadurl);
                 }
@@ -267,14 +261,6 @@
         });
 
         function start_long_task(loadurl) {
-            //div = $('<div class="progress"><div></div><div>0%</div></div><hr>');
-            div = $('<div class="progress"><div></div></div><hr>');
-            $('#newcase-progress').append(div);
-            // create a progress bar
-            var nanobar = new Nanobar({
-                bg: '#44f',
-                target: div[0].childNodes[0]
-            });
             // send ajax POST request to start background job
             $.ajax({
                 type: 'POST',
@@ -282,7 +268,7 @@
                 url: loadurl,
                 success: function(data, status, request) {
                     status_url = request.getResponseHeader('Location');
-                    update_progress(status_url, nanobar, loadurl);
+                    update_progress(status_url, loadurl);
                 },
                 error: function() {
                     alert('Unexpected error');
@@ -290,21 +276,23 @@
             });
         };
 
-        function update_progress(status_url, nanobar, loadurl) {
+        function update_progress(status_url, loadurl) {
             // send GET request to status URL
             $.getJSON(status_url, function(data) {
                 // update UI
                 percent = parseInt(data['current'] * 100 / data['total']);
-                nanobar.go(percent);
-                //$(status_div.childNodes[1]).text(percent + '%  ' + data['status']);
+                //$('#newcase-progress').show(); //Do not work
+                $('#newcase-progress').removeClass('hidden');
+                $('#newcase-progress').css('width', percent+'%').attr('aria-valuenow', percent);
                 if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
-                    //$('#newcase-progress').fadeOut('slow');
+                    $('#newcase-progress').fadeOut('slow');
                     location.href=loadurl;
+                    //$(window.location).attr('href', loadurl);
                 }
                 else {
                     // rerun in 1 seconds
                     setTimeout(function() {
-                        update_progress(status_url, nanobar, loadurl);
+                        update_progress(status_url, loadurl);
                     }, 1000);
                 }
             });
