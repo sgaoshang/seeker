@@ -170,7 +170,8 @@ startsecs=10
 stopwaitsecs=600
 
 *** elasticsearch ***
-(venv) $ yum install elasticsearch
+(venv) $ yum install java elasticsearch (java needed)
+
 (venv) $ systemctl start elasticsearch.service
 (venv) $ systemctl enable elasticsearch.service
 
