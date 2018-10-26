@@ -31,6 +31,7 @@ python -c "import uuid; print(uuid.uuid4().hex)"
 rhel 7.4, server x86_64, minimal install
 
 yum install python-pip mariadb-server postfix supervisor nginx git
+yum install gcc (for redis)
 
 [mariadb]
 systemctl start mariadb
@@ -141,6 +142,9 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 * upstream prematurely closed connection while reading response header from upstream
 vi /etc/nginx/nginx.conf
   keepalive_timeout   600;
+* nginx, no responce with jquery $.getJSON issue
+add this line to /etc/nginx/conf.d/seeker.conf and service nginx reload
+  proxy_set_header X-Forwarded-Proto $scheme;
 
 *** mail server for outlook ***
 MAIL_SERVER=smtp.office365.com
@@ -153,3 +157,14 @@ MAIL_PASSWORD=***
 (venv) $ pip install celery redis
 (venv) $ run-redis.sh
 (venv) $ celery worker -A celery_worker.celery --loglevel=info
+
+(venv) $ cat /etc/supervisord.d/celeryd.ini 
+[program:celeryd]
+environment=PYTHONPATH=/root/seeker/, FLASK_APP=/root/seeker/seeker.py
+command=/root/seeker/venv/bin/celery worker -A celery_worker.celery --loglevel=info
+stdout_logfile=/root/celeryd.log
+stderr_logfile=/root/celeryd_error.log
+autostart=true
+autorestart=true
+startsecs=10
+stopwaitsecs=600
