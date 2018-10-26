@@ -142,7 +142,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 * upstream prematurely closed connection while reading response header from upstream
 vi /etc/nginx/nginx.conf
   keepalive_timeout   600;
-* nginx, no responce with jquery $.getJSON issue
+* nginx, no responce to jquery $.getJSON issue
 add this line to /etc/nginx/conf.d/seeker.conf and service nginx reload
   proxy_set_header X-Forwarded-Proto $scheme;
 
@@ -168,3 +168,18 @@ autostart=true
 autorestart=true
 startsecs=10
 stopwaitsecs=600
+
+*** elasticsearch ***
+(venv) $ yum install elasticsearch
+(venv) $ systemctl start elasticsearch.service
+(venv) $ systemctl enable elasticsearch.service
+
+(venv) $ cat /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-6.x]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
