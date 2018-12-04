@@ -1,7 +1,7 @@
 # [launch]
 $ virtualenv venv
 $ source venv/bin/activate
-(venv) $ pip install -r requirements.txt ##(venv) $ pip freeze requirements.txt
+(venv) $ pip install -r requirements.txt ##(venv) $ pip freeze > requirements.txt
 
 (venv) $ export FLASK_APP=seeker.py
 
