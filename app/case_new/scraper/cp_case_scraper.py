@@ -29,7 +29,7 @@ class CPCaseScraper(object):
 
         search_min_date = ""
         current_app.logger.info("***search_date: %s***" % search_date)
-        max_cases = 300
+        max_cases = 100
         while search_start < max_cases:
             r = requests.get(
                 url='https://access.redhat.com/rs/cases',
