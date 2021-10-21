@@ -1,6 +1,6 @@
 3to2==1.1.1
 alembic==0.9.6
-Babel==2.5.1
+Babel==2.9.1
 beautifulsoup4==4.6.3
 blinker==1.4
 celery==4.2.1
